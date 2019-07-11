@@ -116,7 +116,6 @@ export function getBlockingActions(action, stage = {}) {
 /**
  * Get all workflow actions of a stage
  */
-
 export function getStageActions(stage = {}) {
   let stageActions = [];
 
