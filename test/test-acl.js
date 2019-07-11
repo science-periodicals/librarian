@@ -8,7 +8,8 @@ import {
   createCheckAcl,
   parseAuthorization,
   hasPublicAudience,
-  hasPermission
+  hasPermission,
+  getDefaultGraphDigitalDocumentPermissions
 } from '../src';
 
 // Note `blindingData` is tested in test-anonymize
@@ -228,6 +229,193 @@ describe('acl', function() {
           );
           assert(
             !acl.checkPermission('role:unknown', 'ViewActionPermission', {
+              action
+            })
+          );
+        });
+
+        it('should handle invite with a purpose', () => {
+          const action = {
+            '@id': 'action:reviewId',
+            '@type': 'ReviewAction',
+            actionStatus: 'ActiveActionStatus',
+            agent: { '@type': 'ContributorRole', roleName: 'reviewer' },
+            description: 'Review the submission.',
+            name: 'Review',
+            instanceIndex: 1,
+            startTime: '2019-07-10T23:17:34.657Z',
+            instanceOf: 'workflow:reviewId',
+            resultOf: 'action:startWorkflowStageId',
+            object: 'graph:graphId?version=0.0.0-0',
+            _id: 'graph:graphId::action::action:reviewId'
+          };
+
+          const graph = {
+            creator: 'user:brown',
+            '@id': 'graph:graphId',
+            '@type': 'Graph',
+            author: {
+              '@id': 'role:a3e0b07d-37b3-4f54-815e-debbdb043198',
+              '@type': 'ContributorRole',
+              startDate: '2019-07-10T23:17:27.435Z',
+              roleName: 'author',
+              author: 'user:brown'
+            },
+            reviewer: [
+              {
+                '@id': 'role:39b7c2b3-d704-493c-b303-da61785d7ea6',
+                '@type': 'ContributorRole',
+                roleName: 'reviewer',
+                reviewer: 'user:noether',
+                startDate: '2019-07-10T23:17:35.855Z'
+              }
+            ],
+            editor: [
+              {
+                '@type': 'ContributorRole',
+                '@id': 'role:5f6bf6d9-af79-475a-8e8b-78e80b0c4fa7',
+                name: 'Editorial Office',
+                roleName: 'editor',
+                roleContactPoint: [
+                  {
+                    '@id': 'contact:user-rubin@editorial-office',
+                    '@type': 'ContactPoint',
+                    contactType: 'editorial office',
+                    email: 'mailto:test+rubin@sci.pe',
+                    verificationStatus: 'VerifiedVerificationStatus'
+                  }
+                ],
+                editor: 'user:rubin',
+                startDate: '2019-07-10T23:17:27.435Z'
+              }
+            ],
+            hasDigitalDocumentPermission: getDefaultGraphDigitalDocumentPermissions(),
+            dateCreated: '2019-07-10T23:17:27.422Z',
+            expectedDatePublishedOrRejected: '2019-08-24T23:17:27.422Z',
+            identifier: 2,
+            isPartOf: 'journal:joghl-test',
+            publisher: 'org:institute-for-advanced-studies',
+            workflow:
+              'workflow:83b11b6a-b7ee-4611-8e5a-fb374b32aacb?version=2-b933a9bb299b9fca1220b8450ee1fcc7',
+            resultOf: 'action:64592c01-fa52-485f-956e-27ed12dbc662',
+            mainEntity: 'node:02f7abe9-f4af-41ba-8550-076f903441a3',
+            dateSubmitted: '2019-07-10T23:17:31.799Z',
+            _id: 'graph:graphId::graph'
+          };
+
+          const invite = {
+            startTime: '2019-07-10T23:17:35.702Z',
+            '@id': 'action:inviteId',
+            '@type': 'InviteAction',
+            actionStatus: 'ActiveActionStatus',
+            agent: {
+              '@id': 'role:5f6bf6d9-af79-475a-8e8b-78e80b0c4fa7',
+              '@type': 'ContributorRole',
+              name: 'Editorial Office',
+              roleName: 'editor',
+              roleContactPoint: [
+                {
+                  '@id': 'contact:user-rubin@editorial-office',
+                  '@type': 'ContactPoint',
+                  contactType: 'editorial office',
+                  email: 'mailto:test+rubin@sci.pe',
+                  verificationStatus: 'VerifiedVerificationStatus'
+                }
+              ],
+              agent: 'user:rubin'
+            },
+            recipient: {
+              '@id': 'role:a50c6776-03ba-402c-b904-ad8ab7c9a67c',
+              '@type': 'ContributorRole',
+              roleName: 'reviewer',
+              recipient: 'user:anning'
+            },
+            object: 'graph:graphId',
+            purpose: 'action:reviewId',
+            participant: [
+              {
+                '@type': 'AudienceRole',
+                startDate: '2019-07-10T23:17:35.702Z',
+                roleName: 'audience',
+                participant: {
+                  '@type': 'Audience',
+                  audienceType: 'author',
+                  '@id': 'audience:c3da13f68274e527e1ff19002073dae2'
+                },
+                '@id': 'arole:00d7ec7f-c313-4b12-9173-9e9d81db3718'
+              },
+              {
+                '@type': 'AudienceRole',
+                startDate: '2019-07-10T23:17:35.702Z',
+                roleName: 'audience',
+                participant: {
+                  '@type': 'Audience',
+                  audienceType: 'editor',
+                  '@id': 'audience:1b41502812518176985ab77ad1b5e6d8'
+                },
+                '@id': 'arole:327d4bfd-3f84-44fe-a23b-9cd030bc1536'
+              },
+              {
+                '@type': 'AudienceRole',
+                startDate: '2019-07-10T23:17:35.702Z',
+                roleName: 'audience',
+                participant: {
+                  '@type': 'Audience',
+                  audienceType: 'reviewer',
+                  '@id': 'audience:93968274b24b0118b967254c3bb6e4f8'
+                },
+                '@id': 'arole:ba3db81c-9db3-4616-8507-76e35de47cb4'
+              },
+              {
+                '@type': 'AudienceRole',
+                startDate: '2019-07-10T23:17:35.702Z',
+                roleName: 'audience',
+                participant: {
+                  '@type': 'Audience',
+                  audienceType: 'producer',
+                  '@id': 'audience:71ff0cbf138024d0ba733a1f8ee6c70b'
+                },
+                '@id': 'arole:def15551-df6f-42ba-8454-4194c735b858'
+              },
+              {
+                '@id':
+                  'srole:e2506873-6c47-4417-a345-784f48aeac2e@a3e0b07d-37b3-4f54-815e-debbdb043198',
+                '@type': 'ContributorRole',
+                roleName: 'participant',
+                startDate: '2019-07-10T23:17:35.702Z',
+                participant: 'user:brown'
+              },
+              {
+                '@id':
+                  'srole:7de43734-a26e-454a-af17-769347cdec8c@5f6bf6d9-af79-475a-8e8b-78e80b0c4fa7',
+                '@type': 'ContributorRole',
+                roleName: 'participant',
+                startDate: '2019-07-10T23:17:35.702Z',
+                participant: 'user:rubin'
+              },
+              {
+                '@id':
+                  'srole:f6da33ed-bc51-4b8d-a026-0526dacaee44@39b7c2b3-d704-493c-b303-da61785d7ea6',
+                '@type': 'ContributorRole',
+                roleName: 'participant',
+                startDate: '2019-07-10T23:17:36.002Z',
+                participant: 'user:noether'
+              }
+            ],
+            _id: 'graph:graphId::action::action:inviteId'
+          };
+
+          const acl = new Acl(graph, invite);
+
+          // `user:noether` is reviewer, `user:anning` has been invited with a
+          // purpose to `action`
+          assert(
+            !acl.checkPermission('user:noether', 'ViewActionPermission', {
+              action
+            })
+          );
+          assert(
+            acl.checkPermission('user:anning', 'ViewActionPermission', {
               action
             })
           );

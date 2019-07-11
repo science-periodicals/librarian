@@ -393,7 +393,6 @@ export default async function handlePublishAction(
         );
 
         // make the graph public so that permission work
-        console.log(getId(graph));
         try {
           const syncedGraph = await this.syncGraph(
             graph,
@@ -418,7 +417,6 @@ export default async function handlePublishAction(
             }
           );
         } catch (err) {
-          console.log(err);
           this.log.error({ err, action: savedAction }, 'error syncing graphs');
         }
 

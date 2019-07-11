@@ -225,6 +225,8 @@ describe('CheckAction', function() {
 
     // console.log(require('util').inspect(checkAction, { depth: null }));
     assert.equal(checkAction.actionStatus, 'CompletedActionStatus');
+    // check that endTime was set
+    assert(checkAction.endTime);
 
     // main entity contrib role id was added as participant
     const mainEntityContribRole = graph['@graph'].find(

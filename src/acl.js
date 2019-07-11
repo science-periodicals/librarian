@@ -131,6 +131,10 @@ export class Acl {
       }
     );
   }
+
+  checkIfActionIsAssignedOrInvitePurpose(action) {
+    return isActionAssignedOrInvitePurpose(action, this.pendingInviteActions);
+  }
 }
 
 export function parseAuthorization(req) {
@@ -630,6 +634,18 @@ export function isActionAssigned(action) {
   );
 }
 
+function isActionAssignedOrInvitePurpose(action, pendingInviteActions = []) {
+  return (
+    isActionAssigned(action) &&
+    pendingInviteActions.some(
+      inviteAction =>
+        inviteAction.actionStatus === 'ActiveActionStatus' &&
+        getId(inviteAction.purpose) &&
+        getId(inviteAction.purpose) === getId(action)
+    )
+  );
+}
+
 export function hasPermission(
   object, // Graph or a Periodical
   agent,
@@ -793,7 +809,7 @@ function hasActionPermission(
     Object.assign({}, roleMatchOpts, {
       includeMainEntityAuthors: action['@type'] === 'CheckAction',
       requiresMatchingIdentity:
-        isAudience && !isActionAssigned(action) ? false : true // if not audience agent need to have strict identity example: review action specific to one reviewer
+        !isAudience || isActionAssignedOrInvitePurpose(action, inviteActions) // if not audience agent need to have strict identity example: review action specific to one reviewer
     })
   );
 
@@ -829,15 +845,21 @@ function hasActionPermission(
         inviteAction =>
           getId(action) &&
           getId(inviteAction.purpose) === getId(action) &&
-          roleMatch(user, inviteAction.recipient, roleMatchOpts)
+          roleMatch(
+            user,
+            inviteAction.recipient,
+            Object.assign({}, roleMatchOpts, { requiresMatchingIdentity: true })
+          )
       );
 
-      //console.log({
-      //  isQualifiedAgent,
-      //  isAudience,
-      //  isContrib,
-      //  isInvitedForAction
-      //});
+      if (debug) {
+        console.log({
+          isQualifiedAgent,
+          isAudience,
+          isContrib,
+          isInvitedForAction
+        });
+      }
 
       return (
         (isQualifiedAgent || isAudience || isContrib || isInvitedForAction) &&

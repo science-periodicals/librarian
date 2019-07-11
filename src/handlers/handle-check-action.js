@@ -29,15 +29,6 @@ export default async function handleCheckAction(
     );
   }
 
-  // be sure that only actionStatus is mutated;
-  action = Object.assign(
-    {
-      startTime: new Date().toISOString()
-    },
-    prevAction,
-    pick(action, ['actionStatus', 'error'])
-  );
-
   if (
     action.actionStatus !== 'CompletedActionStatus' &&
     action.actionStatus !== 'FailedActionStatus'
@@ -49,6 +40,18 @@ export default async function handleCheckAction(
       } actionStatus must be CompletedActionStatus or FailedActionStatus`
     );
   }
+
+  // be sure that only actionStatus is mutated
+  action = Object.assign(
+    {
+      startTime: new Date().toISOString()
+    },
+    prevAction,
+    pick(action, ['actionStatus', 'error']),
+    {
+      endTime: new Date().toISOString()
+    }
+  );
 
   const scope = await this.get(getScopeId(getObjectId(action)), {
     store,
