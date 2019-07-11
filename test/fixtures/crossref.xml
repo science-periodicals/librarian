@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doi_batch
+  xmlns="http://www.crossref.org/schema/4.4.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.4.0" xsi:schemaLocation="http://www.crossref.org/schema/4.4.0 http://www.crossref.org/schemas/crossref4.4.0.xsd">
+  <head>
+    <doi_batch_id>graphId</doi_batch_id>
+    <timestamp>1553879268835</timestamp>
+    <depositor>
+      <depositor_name>Tiffany Bogich</depositor_name>
+      <email_address>tiffany@sci.pe</email_address>
+    </depositor>
+    <registrant>Standard Analytics IO</registrant>
+  </head>
+  <body>
+    <journal>
+      <journal_metadata language="en">
+        <full_title>journal of science</full_title>
+        <doi_data>
+          <doi>10.29016/journalId</doi>
+          <resource>https://journalid.sci.pe</resource>
+        </doi_data>
+      </journal_metadata>
+      <journal_article publication_type="full_text">
+        <titles>
+          <title>Test article with parts and citations title</title>
+        </titles>
+        <publication_date media_type="online">
+          <year>2019</year>
+        </publication_date>
+        <doi_data>
+          <doi>10.29016/graphId</doi>
+          <resource>https://journalid.sci.pe/graphId</resource>
+        </doi_data>
+        <citation_list>
+          <citation key="kil11">
+            <doi>10.1126/science.1201010</doi>
+            <author>Kilpatrick</author>
+            <cYear>2011</cYear>
+            <first_page>323</first_page>
+            <article_title>Globalization, Land Use, and the Invasion of West Nile Virus</article_title>
+            <issue>6054</issue>
+            <volume>334</volume>
+            <journal_title>Science</journal_title>
+          </citation>
+          <citation key="ruf15">
+            <author>Ruff</author>
+            <cYear>2015</cYear>
+            <first_page>45</first_page>
+            <article_title>Scientific journals and conflict of interest disclosure: what progress has been made?</article_title>
+            <issue>2015</issue>
+            <volume>14</volume>
+            <journal_title>Environmental Health</journal_title>
+          </citation>
+          <citation key="and82">
+            <doi>10.1126/science.7063839</doi>
+            <author>Anderson</author>
+            <cYear>1982</cYear>
+            <first_page>1053</first_page>
+            <article_title>Directly transmitted infections diseases: control by vaccination</article_title>
+            <issue>4536</issue>
+            <volume>215</volume>
+            <journal_title>Science</journal_title>
+          </citation>
+          <citation key="and821">
+            <doi>10.1017/S0031182000055360</doi>
+            <author>Anderson</author>
+            <cYear>1982</cYear>
+            <first_page>411</first_page>
+            <article_title>Coevolution of hosts and parasites</article_title>
+            <issue>2</issue>
+            <volume>85</volume>
+            <journal_title>Parasitology</journal_title>
+          </citation>
+          <citation key="ceb17">
+            <doi>10.1073/pnas.1704949114</doi>
+            <author>Ceballos</author>
+            <cYear>2017</cYear>
+            <first_page>E6089-E6096</first_page>
+            <article_title>Biological annihilation via the ongoing sixth mass extinction signaled by vertebrate population losses and declines</article_title>
+            <issue>30</issue>
+            <volume>114</volume>
+            <journal_title>PNAS</journal_title>
+          </citation>
+          <citation key="oli17">
+            <doi>10.1038/nature22975</doi>
+            <author>Olival</author>
+            <cYear>2017</cYear>
+            <first_page>646</first_page>
+            <article_title>Host and viral traits predict zoonotic spillover from mammals</article_title>
+            <issue>7660</issue>
+            <volume>546</volume>
+            <journal_title>Nature</journal_title>
+          </citation>
+          <citation key="kee10">
+            <doi>10.1038/nature09575</doi>
+            <author>Keesing</author>
+            <cYear>2010</cYear>
+            <first_page>647</first_page>
+            <article_title>Impacts of biodiversity on the emergence and transmission of infectious diseases</article_title>
+            <issue>7324</issue>
+            <volume>468</volume>
+            <journal_title>Nature</journal_title>
+          </citation>
+          <citation key="who14">
+            <doi>10.1056/NEJMoa1411100</doi>
+            <author>WHO Ebola Response Team</author>
+            <cYear>2014</cYear>
+            <first_page>1481</first_page>
+            <article_title>Ebola virus disease in West Africa—the first 9 months of the epidemic and forward projections</article_title>
+            <issue>16</issue>
+            <volume>371</volume>
+            <journal_title>The New England Journal of Medicine</journal_title>
+          </citation>
+          <citation key="jay00">
+            <doi>10.1109/VETECS.2000.851605</doi>
+            <author>Jayalath</author>
+            <cYear>2000</cYear>
+            <first_page>1914</first_page>
+            <article_title>Reduced complexity PTS and new phase sequences for SLM to reduce PAP of an OFDM signal</article_title>
+            <volume>3</volume>
+            <journal_title>Vehicular Technology Conference Proceedings</journal_title>
+          </citation>
+          <citation key="who08">
+            <isbn>9789241563703</isbn>
+            <author>WHO Commission on Social Determinants of Health; World Health Organization</author>
+            <cYear>2008</cYear>
+            <article_title>Closing the gap in a generation: health equity through action on the social determinants of health</article_title>
+          </citation>
+          <citation key="dur13">
+            <author>Dureau</author>
+            <cYear>2013</cYear>
+            <article_title>Bayesian Inference for Indirectly Observed Stochastic Processes, Applications to Epidemic Modelling</article_title>
+          </citation>
+          <citation key="wal02">
+            <isbn>014200135X</isbn>
+            <author>Waldrop</author>
+            <cYear>2002</cYear>
+            <first_page>516</first_page>
+            <volume_title>The dream machine: JCR Licklider and the revolution that made computing personal</volume_title>
+            <edition_number>1</edition_number>
+          </citation>
+          <citation key="gil02">
+            <isbn>0838573878</isbn>
+            <author>Gilstrap</author>
+            <cYear>2002</cYear>
+            <first_page>728</first_page>
+            <volume_title>Operative obstetrics</volume_title>
+            <edition_number>2</edition_number>
+          </citation>
+          <citation key="tho161">
+            <isbn>1555979270</isbn>
+            <author>Thoreau</author>
+            <cYear>2016</cYear>
+            <first_page>177</first_page>
+            <article_title>Walking</article_title>
+            <volume_title>The Making of the American Essay</volume_title>
+            <edition_number>1</edition_number>
+          </citation>
+          <citation key="kur87">
+            <cYear>1987</cYear>
+            <volume_title>The Founders’ Constitution</volume_title>
+          </citation>
+          <citation key="cen171">
+            <author>CDC</author>
+            <cYear>2017</cYear>
+            <article_title>Influenza (Flu)</article_title>
+          </citation>
+          <citation key="sch17">
+            <author>Schlossbert</author>
+            <cYear>2017</cYear>
+            <article_title>Era of ‘Biological Annihilation’ Is Underway, Scientists Warn</article_title>
+          </citation>
+          <citation key="ami84">
+            <isbn>0893701599</isbn>
+            <cYear>1984</cYear>
+            <first_page>129</first_page>
+            <article_title>Mimic and Moralist</article_title>
+          </citation>
+          <citation key="nw200">
+            <cYear>2000</cYear>
+            <article_title>Beachy v. Becerra</article_title>
+          </citation>
+          <citation key="chr71">
+            <cYear>1971</cYear>
+            <article_title>Toy building set</article_title>
+          </citation>
+          <citation key="dan09">
+            <cYear>2009</cYear>
+            <article_title>94 Meetings</article_title>
+          </citation>
+          <citation key="goy00">
+            <cYear>1800</cYear>
+            <first_page>939</first_page>
+            <article_title>The Family of Charles IV</article_title>
+            <volume_title>Gardener's Art through the Ages</volume_title>
+          </citation>
+          <citation key="ber17">
+            <cYear>2017</cYear>
+            <article_title>Symphony No. 3, Kaddish</article_title>
+          </citation>
+          <citation key="mcq95">
+            <cYear>1995</cYear>
+            <article_title>The Usual Suspects</article_title>
+          </citation>
+          <citation key="smi181">
+            <author>Smith</author>
+            <cYear>2018</cYear>
+            <first_page>1</first_page>
+            <article_title>A new wave</article_title>
+            <issue>1</issue>
+            <volume>17</volume>
+            <edition_number>2</edition_number>
+          </citation>
+        </citation_list>
+        <component_list>
+          <component parent_relation="isPartOf">
+            <description>Figure 1: Image caption</description>
+            <doi_data>
+              <doi>10.29016/graphId/figure-1</doi>
+              <resource>https://journalid.sci.pe/graphId#figure-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Audio 1: Audio caption.</description>
+            <doi_data>
+              <doi>10.29016/graphId/audio-1</doi>
+              <resource>https://journalid.sci.pe/graphId#audio-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Video 1: Video caption.</description>
+            <doi_data>
+              <doi>10.29016/graphId/video-1</doi>
+              <resource>https://journalid.sci.pe/graphId#video-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Table 1: Table caption.</description>
+            <doi_data>
+              <doi>10.29016/graphId/table-1</doi>
+              <resource>https://journalid.sci.pe/graphId#table-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Code 1: Code caption.</description>
+            <doi_data>
+              <doi>10.29016/graphId/code-1</doi>
+              <resource>https://journalid.sci.pe/graphId#code-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Text Box 1: Text box caption</description>
+            <doi_data>
+              <doi>10.29016/graphId/text-box-1</doi>
+              <resource>https://journalid.sci.pe/graphId#text-box-1</resource>
+            </doi_data>
+          </component>
+          <component parent_relation="isPartOf">
+            <description>Dataset 1: Dataset caption</description>
+            <doi_data>
+              <doi>10.29016/graphId/dataset-1</doi>
+              <resource>https://journalid.sci.pe/graphId#dataset-1</resource>
+            </doi_data>
+          </component>
+        </component_list>
+      </journal_article>
+    </journal>
+  </body>
+</doi_batch>

@@ -1,0 +1,11 @@
+<% var recipient = hydrate(unrole(hydrate(arrayify(emailMessage.recipient)[0]), 'recipient')) %>
+<% var displayName = recipient.name || unprefix(getId(recipient)) || recipient.email %>
+<p>
+  Welcome to <a href="https://sci.pe" title="science periodicals">sci.pe</a>, <%= displayName %>.
+</p>
+<p>
+  You can start publishing content or create a journal right away by visiting your <a href="https://sci.pe">dashboard</a>.
+</p>
+<p>
+  Thank you for signing up.
+</p>

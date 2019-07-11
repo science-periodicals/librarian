@@ -1,0 +1,50 @@
+{
+  "@context": "https://sci.pe",
+  "@id": "service:scipe-crossref-doi",
+  "@type": "Service",
+  "serviceStatus": "ActiveServiceStatus",
+  "serviceType": "DOI registration",
+  "provider": "org:scipe",
+  "broker": "org:scipe",
+  "name": "DOI registration",
+  "description": {
+    "@type": "rdf:HTML",
+    "@value": "Assign <a href='https://www.doi.org/'>DOIs</a> to a Creative Work and parts of that Creative Work"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "user"
+  },
+  "termsOfService": "https://sci.pe/get-started/terms",
+  "offers": {
+    "@id": "node:scipe-crossref-doi",
+    "@type": "Offer",
+    "name": "DOI",
+    "description": "Register DOIs",
+    "priceSpecification": {
+      "@type": "CompoundPriceSpecification",
+      "priceComponent": [
+        {
+          "name": "main entity",
+          "@type": "UnitPriceSpecification",
+          "price": 1,
+          "priceCurrency": "USD",
+          "billingIncrement": 1,
+          "unitText": "main entity",
+          "valueAddedTaxIncluded": false,
+          "platformFeesIncluded": false
+        },
+        {
+          "name": "parts",
+          "@type": "UnitPriceSpecification",
+          "price": 0.1,
+          "priceCurrency": "USD",
+          "billingIncrement": 1,
+          "unitText": "Creative Work listed as part of the main entity",
+          "valueAddedTaxIncluded": false,
+          "platformFeesIncluded": false
+        }
+      ]
+    }
+  }
+}

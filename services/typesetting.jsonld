@@ -1,0 +1,60 @@
+{
+  "@id": "service:scipe-ds3-typesetting",
+  "@type": "Service",
+  "name": "Smart typesetting",
+  "allowBroker": true,
+  "serviceStatus": "ActiveServiceStatus",
+  "termsOfService": "https://sci.pe/get-started/terms",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "user"
+  },
+  "description": {
+    "@type": "rdf:HTML",
+    "@value": "Convert documents into <a href='https://sci.pe/get-started/ds3'>DOCX Standard Scientific Style (<abbr title='DOCX Standard Scientific Style'>DS3</abbr>)</a> and automatically fill submission forms"
+  },
+  "provider": "org:scipe",
+  "broker": "org:scipe",
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "processingTime": "P3D"
+  },
+  "serviceType": "typesetting",
+  "offers": {
+    "@id": "node:scipe-ds3-typesetting-offer",
+    "@type": "Offer",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": 90,
+      "priceCurrency": "USD",
+      "unitText": "submission",
+      "valueAddedTaxIncluded": false,
+      "platformFeesIncluded": false
+    },
+    "addOn": {
+      "@id": "node:scipe-ds3-typesetting-add-on-offer",
+      "@type": "Offer",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": 0,
+        "priceCurrency": "USD",
+        "unitText": "submission",
+        "valueAddedTaxIncluded": false,
+        "platformFeesIncluded": false
+      },
+      "eligibleCustomerType": "RevisionAuthor",
+      "potentialAction": {
+        "@id": "service:scipe-ds3-typesetting-add-on-buy-action",
+        "actionStatus": "PotentialActionStatus",
+        "@type": "BuyAction",
+        "object": "node:scipe-ds3-typesetting-add-on-offer"
+      }
+    },
+    "potentialAction": {
+      "@id": "service:scipe-ds3-typesetting-buy-action",
+      "actionStatus": "PotentialActionStatus",
+      "@type": "BuyAction",
+      "object": "node:scipe-ds3-typesetting-offer"
+    }
+  }
+}

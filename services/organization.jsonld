@@ -1,0 +1,16 @@
+{
+  "@id": "org:scipe",
+  "@type": "Organization",
+  "url": "https://sci.pe",
+  "name": "science periodicals",
+  "alternateName": "scipe",
+  "member": [
+    {
+      "@type": "ServiceProviderRole",
+      "member": "user:tiffany",
+      "roleName": "producer",
+      "name": "typesetter",
+      "startDate": "2019-02-17T20:42:27.306Z"
+    }
+  ]
+}

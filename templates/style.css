@@ -1,0 +1,260 @@
+body {
+  font-family: helvetica, arial, sans-serif;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: 0.02em;
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 12px;
+}
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0px solid black;
+  box-sizing: border-box;
+  table-layout: fixed;
+}
+td {
+  vertical-align: top;
+  border: 1px;
+}
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+a:active {
+  color: #64b5f6;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  background-color: #eeeeee;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.notice {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #bbbbbb;
+  line-height: 16px;
+}
+.right {
+  float: right;
+}
+.icon__32px {
+  width: 32px;
+  height: 32px;
+}
+/* this is just for prototyping - email clients do not support border-radius
+  so we have to render images of the badges */
+.temp-badge {
+  border-radius: 16px;
+}
+
+.thumbnail-container {
+  padding: 16px;
+  width: auto;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.thumbnail-border {
+  border: 1px solid #eeeeee;
+  padding: 4px;
+}
+.thumbnail-container img {
+  background-color: #eeeeee;
+  border: 0;
+  outline: 0;
+  font-size: 11px;
+  line-height: 11px;
+  color: grey;
+}
+
+.body-table {
+  width: 100%;
+  height: 100%;
+  background-color: whitesmoke;
+}
+
+.body-table__main {
+  margin: auto;
+  padding: 16px;
+}
+.margin__top {
+  border: 1px;
+  height: 32px;
+}
+
+.margin__side {
+  width: 5%;
+}
+
+.v-spacer {
+  width: 100%;
+  height: 24px;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #eeeeee;
+}
+
+/* ------ Banner ------ */
+
+.banner-table,
+.footer-table {
+  margin: auto;
+  width: 100%;
+  max-width: 720px;
+  /*height: 64px;*/
+}
+.banner-table__main {
+  padding: 24px;
+}
+.banner-table__logo {
+  font-size: 40px;
+  font-weight: 600;
+  color: black;
+}
+
+img.header__logo {
+  width: 200px;
+  height: 77px;
+  border: 0px;
+  font-size: 36px;
+  color: #000000;
+  line-height: 37px;
+  font-weight: bold;
+}
+
+/* ------ Content ------ */
+
+.content-table {
+  margin: auto;
+  width: 100%;
+  max-width: 720px;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 2px lightgrey;
+}
+.content-table__main {
+}
+
+/* ------ Header ------ */
+
+.header-table {
+  width: 100%;
+  text-align: left;
+}
+.header-table__icon {
+  text-align: left;
+  width: 56px;
+}
+.header-table__details {
+  vertical-align: top;
+  line-height: 24px;
+}
+.header-table__title {
+  font-size: 18px;
+}
+.header-table__time {
+  color: #bbbbbb;
+  font-size: 12px;
+}
+
+/* ------ Comment Thread ------ */
+
+.comment-thread {
+  width: 95%;
+}
+.comment-thread p {
+  margin: 4px 0 16px 0;
+}
+.comment-thread__icon {
+  width: 56px;
+  /*padding: 8px;*/
+}
+.comment-thread__header {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #bbbbbb;
+}
+.comment-thread__comment {
+}
+.comment-thread__label {
+  /*  font-size: 12px;*/
+  /*text-transform: uppercase;*/
+  color: #bbbbbb;
+}
+.comment-thread__comment.previous {
+  color: #bbbbbb;
+}
+
+.attachments__title {
+  font-weight: 400;
+  color: grey;
+  margin-bottom: 16px;
+}
+.attachments-table__reviews {
+  width: 100%;
+}
+
+.attachments-table__reviews__review-info {
+  border-top: 2px solid lightgrey;
+  border-bottom: 2px solid lightgrey;
+  padding: 8px;
+  background-color: whitesmoke;
+  font-weight: 500;
+}
+.attachments-table__reviews__review-info--rating {
+  text-align: right;
+}
+
+.attachments-table__reviews__review-question {
+  color: grey;
+  border-top: 1px solid lightgrey;
+  padding: 8px 8px 0 8px;
+}
+
+.attachments-table__reviews__review-answer {
+  border-bottom: 1px solid lightgrey;
+  padding: 0 8px 8px 8px;
+}
+
+.attachments-table__reviews__review-body-content {
+  padding: 8px 8px 0 8px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.attachments-table__reviews__review-link {
+  padding: 8px;
+  border-bottom: 2px solid lightgrey;
+}
+/* ------ Footer ------ */
+
+.footer-table__footer {
+  font-weight: lighter;
+  font-size: 13px;
+  color: #bbbbbb;
+  margin: auto;
+  text-align: center;
+}

@@ -1,0 +1,31 @@
+{
+  "@context": "https://sci.pe",
+  "@id": "service:scipe",
+  "@type": "Service",
+  "serviceStatus": "ActiveServiceStatus",
+  "serviceType": "scipe",
+  "provider": "org:scipe",
+  "name": "sci.pe",
+  "description": "The science publishing platform",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "public"
+  },
+  "termsOfService": "https://sci.pe/get-started/terms",
+  "offers": {
+    "@id": "node:scipe-explorer",
+    "@type": "Offer",
+    "name": "sci.pe",
+    "description": "SaaS offering hosted by sci.pe",
+    "availabilityStarts": "2018-09-01T05:20:10.063Z",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": 99,
+      "priceCurrency": "USD",
+      "billingIncrement": 1,
+      "unitText": "peer reviewed or published submission",
+      "valueAddedTaxIncluded": false,
+      "platformFeesIncluded": false
+    }
+  }
+}

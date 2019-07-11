@@ -1,0 +1,1212 @@
+[
+  {
+    "@id": "node:article",
+    "@type": "ScholarlyArticle",
+    "name": "Test article with parts and citations title",
+    "author": [
+      {
+        "@id": "role:author1",
+        "@type": "ContributorRole",
+        "roleName": "author",
+        "author": {
+          "@id": "user:lea",
+          "@type": "Person",
+          "name": "peter",
+          "givenName": "Lea",
+          "familyName": "Smith"
+        }
+      },
+      {
+        "@id": "role:author2",
+        "@type": "ContributorRole",
+        "author": {
+          "@id": "user:jamie",
+          "@type": "Person",
+          "name": "Dr Jamie Lee",
+          "givenName": "Jamie",
+          "familyName": "Lee"
+        }
+      }
+    ],
+    "hasPart": [
+      {
+        "@id": "node:image",
+        "@type": "Image",
+        "alternateName": "Figure 1",
+        "caption": "Image caption"
+      },
+      {
+        "@id": "node:audio",
+        "@type": "Audio",
+        "alternateName": "Audio 1",
+        "caption": "Audio caption."
+      },
+      {
+        "@id": "node:video",
+        "@type": "Video",
+        "alternateName": "Video 1",
+        "caption": "Video caption."
+      },
+      {
+        "@id": "node:table",
+        "@type": "Table",
+        "alternateName": "Table 1",
+        "caption": "Table caption."
+      },
+      {
+        "@id": "node:code",
+        "@type": "SoftwareSourceCode",
+        "alternateName": "Code 1",
+        "caption": "Code caption."
+      },
+      {
+        "@id": "node:textBox",
+        "@type": "TextBox",
+        "alternateName": "Text Box 1",
+        "caption": "Text box caption"
+      },
+      {
+        "@id": "node:dataset",
+        "@type": "Dataset",
+        "alternateName": "Dataset 1",
+        "caption": "Dataset caption"
+      }
+    ],
+    "citation": [
+      {
+        "@id": "node:kil11",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1126/science.1201010",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "Marm",
+            "familyName": "Kilpatrick",
+            "givenName": "A."
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2011-10-21"
+        },
+        "identifier": "Kil11",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Science"
+            },
+            "volumeNumber": 334
+          },
+          "issueNumber": 6054
+        },
+        "name": "Globalization, Land Use, and the Invasion of West Nile Virus",
+        "pageEnd": 327,
+        "pageStart": 323,
+        "publisher": {
+          "@type": "Organization",
+          "name": "American Association for the Advancement of Science"
+        },
+        "url": "http://science.sciencemag.org/content/334/6054/323"
+      },
+      {
+        "@id": "node:ruf15",
+        "@type": "ScholarlyArticle",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Ruff",
+            "givenName": "Kathleen"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2015-05-30"
+        },
+        "identifier": "Ruf15",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Environmental Health"
+            },
+            "volumeNumber": 14
+          },
+          "issueNumber": 2015
+        },
+        "name": "Scientific journals and conflict of interest disclosure: what progress has been made?",
+        "pageStart": 45,
+        "publisher": {
+          "@type": "Organization",
+          "name": "BioMed Central"
+        },
+        "sameAs": ["pmcid:4450857"],
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4450857/"
+      },
+      {
+        "@id": "node:and82",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1126/science.7063839",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "M.",
+            "familyName": "Anderson",
+            "givenName": "Roy"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "M.",
+            "familyName": "May",
+            "givenName": "Robert"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "1982-02-26"
+        },
+        "identifier": "And82",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Science"
+            },
+            "volumeNumber": 215
+          },
+          "issueNumber": 4536
+        },
+        "name": "Directly transmitted infections diseases: control by vaccination",
+        "pageEnd": 1060,
+        "pageStart": 1053,
+        "publisher": {
+          "@type": "Organization",
+          "name": "American Association for the Advancement of Science"
+        },
+        "url": "http://www.jstor.org/stable/1688362"
+      },
+      {
+        "@id": "node:and821",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1017/S0031182000055360",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "M.",
+            "familyName": "Anderson",
+            "givenName": "Roy"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "M.",
+            "familyName": "May",
+            "givenName": "Robert"
+          }
+        ],
+        "comment": [
+          {
+            "@type": "Comment",
+            "text": "Canonical reference, see also May and Anderson 1982"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:gYearMonth",
+          "@value": "1982-10"
+        },
+        "identifier": "And821",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Parasitology"
+            },
+            "volumeNumber": 85
+          },
+          "issueNumber": 2
+        },
+        "name": "Coevolution of hosts and parasites",
+        "pageEnd": 426,
+        "pageStart": 411,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Cambridge"
+          },
+          "name": "Cambridge University Press"
+        }
+      },
+      {
+        "@id": "node:ceb17",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1073/pnas.1704949114",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Ceballos",
+            "givenName": "Gerardo"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "R.",
+            "familyName": "Ehrlich",
+            "givenName": "Paul"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Dirzo",
+            "givenName": "Rodolfo"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2017-05-23"
+        },
+        "identifier": "Ceb17",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "PNAS"
+            },
+            "volumeNumber": 114
+          },
+          "issueNumber": 30
+        },
+        "name": "Biological annihilation via the ongoing sixth mass extinction signaled by vertebrate population losses and declines",
+        "pagination": "E6089-E6096",
+        "publisher": {
+          "@type": "Organization",
+          "name": "National Academy of Sciences"
+        }
+      },
+      {
+        "@id": "node:oli17",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1038/nature22975",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "J.",
+            "familyName": "Olival",
+            "givenName": "Kevin"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "R.",
+            "familyName": "Hosseini",
+            "givenName": "Parviez"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Zambrana-Torrelio",
+            "givenName": "Carlos"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Ross",
+            "givenName": "Noam"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "L.",
+            "familyName": "Bogich",
+            "givenName": "Tiffany"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Daszak",
+            "givenName": "Peter"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2017-06-29"
+        },
+        "identifier": "Oli17",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Nature"
+            },
+            "volumeNumber": 546
+          },
+          "issueNumber": 7660
+        },
+        "name": "Host and viral traits predict zoonotic spillover from mammals",
+        "pageEnd": 650,
+        "pageStart": 646,
+        "publisher": {
+          "@type": "Organization",
+          "name": "Springer-Nature"
+        }
+      },
+      {
+        "@id": "node:kee10",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1038/nature09575",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Keesing",
+            "givenName": "Felicia"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "K.",
+            "familyName": "Belden",
+            "givenName": "Lisa"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Daszak",
+            "givenName": "Peter"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Dobson",
+            "givenName": "Andrew"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "Drew",
+            "familyName": "Harvell",
+            "givenName": "C."
+          },
+          {
+            "@type": "Person",
+            "additionalName": "D.",
+            "familyName": "Holt",
+            "givenName": "Robert"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Hudson",
+            "givenName": "Peter"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Jolles",
+            "givenName": "Anna"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "E.",
+            "familyName": "Jones",
+            "givenName": "Kate"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "E.",
+            "familyName": "Mitchell",
+            "givenName": "Charles,"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "S.",
+            "familyName": "Myers",
+            "givenName": "Samuel"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Bogich",
+            "givenName": "T."
+          },
+          {
+            "@type": "Person",
+            "additionalName": "S.",
+            "familyName": "Ostfeld",
+            "givenName": "Richard"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2010-12-01"
+        },
+        "identifier": "Kee10",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "Nature"
+            },
+            "volumeNumber": 468
+          },
+          "issueNumber": 7324
+        },
+        "name": "Impacts of biodiversity on the emergence and transmission of infectious diseases",
+        "pageEnd": 652,
+        "pageStart": 647,
+        "publisher": {
+          "@type": "Organization",
+          "name": "Springer-Nature"
+        }
+      },
+      {
+        "@id": "node:who14",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1056/NEJMoa1411100",
+        "author": [
+          {
+            "@type": "Organization",
+            "name": "WHO Ebola Response Team"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2014-10-16"
+        },
+        "identifier": "WHO14",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "Periodical",
+              "name": "The New England Journal of Medicine"
+            },
+            "volumeNumber": 371
+          },
+          "issueNumber": 16
+        },
+        "name": "Ebola virus disease in West Africa—the first 9 months of the epidemic and forward projections",
+        "pageEnd": 1495,
+        "pageStart": 1481
+      },
+      {
+        "@id": "node:jay00",
+        "@type": "ScholarlyArticle",
+        "doi": "10.1109/VETECS.2000.851605",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "D. S.",
+            "familyName": "Jayalath",
+            "givenName": "A."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Tellambura",
+            "givenName": "Chintha"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Wu",
+            "givenName": "H."
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2000
+        },
+        "identifier": "Jay00",
+        "isPartOf": {
+          "@type": "PublicationVolume",
+          "isPartOf": {
+            "@type": "Periodical",
+            "name": "Vehicular Technology Conference Proceedings"
+          },
+          "volumeNumber": 3
+        },
+        "name": "Reduced complexity PTS and new phase sequences for SLM to reduce PAP of an OFDM signal",
+        "pageEnd": 1917,
+        "pageStart": 1914,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tokyo"
+          },
+          "name": "IEEE"
+        }
+      },
+      {
+        "@id": "node:who08",
+        "@type": "Report",
+        "author": [
+          {
+            "@type": "Organization",
+            "name": "WHO Commission on Social Determinants of Health; World Health Organization"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2008
+        },
+        "identifier": "WHO08",
+        "inSupportOf": "Commission on Social Determinants of Health final report",
+        "isbn": "9789241563703",
+        "name": "Closing the gap in a generation: health equity through action on the social determinants of health",
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Geneva"
+          },
+          "name": "World Health Organization"
+        },
+        "url": "http://apps.who.int/iris/bitstream/10665/43943/1/9789241563703_eng.pdf"
+      },
+      {
+        "@id": "node:dur13",
+        "@type": "Report",
+        "alternateName": "Bayesian Inference",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Dureau",
+            "givenName": "J"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2013
+        },
+        "identifier": "Dur13",
+        "inSupportOf": "PhD Thesis",
+        "name": "Bayesian Inference for Indirectly Observed Stochastic Processes, Applications to Epidemic Modelling",
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "London"
+          },
+          "name": "London School of Economics and Political Science",
+          "parentOrganization": "London School of Economics and Political Science"
+        }
+      },
+      {
+        "@id": "node:wal02",
+        "@type": "Book",
+        "alternateName": "The dream machine",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "Mitchell",
+            "familyName": "Waldrop",
+            "givenName": "M."
+          }
+        ],
+        "bookEdition": "1st edition",
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2002
+        },
+        "identifier": "Wal02",
+        "isbn": "014200135X",
+        "name": "The dream machine: JCR Licklider and the revolution that made computing personal",
+        "pageStart": 516,
+        "publisher": {
+          "@id": "org:penguin",
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressCountry": "USA",
+            "addressLocality": "New York",
+            "addressRegion": "NY"
+          },
+          "name": "Penguin USA"
+        }
+      },
+      {
+        "@id": "node:gil02",
+        "@type": "Book",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "C",
+            "familyName": "Gilstrap",
+            "givenName": "Larry"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "Gary",
+            "familyName": "Cunningham",
+            "givenName": "F"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "Peter",
+            "familyName": "Van Dorsten",
+            "givenName": "J"
+          }
+        ],
+        "bookEdition": "2nd Edition",
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2002
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "additionalName": "C",
+            "familyName": "Gilstrap",
+            "givenName": "Larry"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "Gary",
+            "familyName": "Cunningham",
+            "givenName": "F"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "Peter",
+            "familyName": "Van Dorsten",
+            "givenName": "J"
+          }
+        ],
+        "identifier": "Gil02",
+        "isbn": "0838573878",
+        "name": "Operative obstetrics",
+        "pageStart": 728,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "New York"
+          },
+          "name": "McGraw-Hill Professional"
+        }
+      },
+      {
+        "@id": "node:tho161",
+        "@type": "Chapter",
+        "author": [
+          {
+            "@type": "Person",
+            "additionalName": "David",
+            "familyName": "Thoreau",
+            "givenName": "Henry"
+          }
+        ],
+        "bookEdition": "1st Edition",
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2016
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "familyName": "D’Agata",
+            "givenName": "John"
+          }
+        ],
+        "identifier": "Tho161",
+        "isPartOf": {
+          "@type": "Book",
+          "resourceOf": "graph:e60fae92-fb79-4da8-943a-0b585383135b",
+          "dateCreated": "2018-12-27T02:54:54.554Z",
+          "name": "The Making of the American Essay"
+        },
+        "isbn": "1555979270",
+        "name": "Walking",
+        "pageEnd": 78,
+        "pageStart": 177,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Minneapolis"
+          },
+          "name": "Graywolf Press"
+        }
+      },
+      {
+        "@id": "node:kur87",
+        "@type": "Book",
+        "bookEdition": "Web Edition",
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 1987
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "additionalName": "B",
+            "familyName": "Kurland",
+            "givenName": "Philip"
+          },
+          {
+            "@type": "Person",
+            "familyName": "Lerner",
+            "givenName": "Ralph"
+          }
+        ],
+        "identifier": "Kur87",
+        "name": "The Founders’ Constitution",
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Chicago"
+          },
+          "name": "University of Chicago Press"
+        },
+        "url": "http://press-pubs.uchicago.edu/founders/"
+      },
+      {
+        "@id": "node:cen171",
+        "@type": "WebPage",
+        "author": [
+          {
+            "@type": "Organization",
+            "name": "CDC"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2017-12-08"
+        },
+        "identifier": "Cen171",
+        "name": "Influenza (Flu)",
+        "potentialAction": [
+          {
+            "@type": "ViewAction",
+            "actionStatus": "CompletedActionStatus",
+            "endTime": {
+              "@type": "xsd:date",
+              "@value": "2017-12-10"
+            }
+          }
+        ],
+        "producer": [
+          {
+            "@type": "Organization",
+            "name": "CDC"
+          }
+        ],
+        "url": "https://www.cdc.gov/flu/index.htm"
+      },
+      {
+        "@id": "node:sch17",
+        "@type": "DigitalDocument",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Schlossbert",
+            "givenName": "Tatiana"
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2017-07-11"
+        },
+        "identifier": "Sch17",
+        "isPartOf": {
+          "@type": "WebPage",
+          "dateCreated": "2018-12-27T02:54:54.554Z",
+          "name": "The New York Times"
+        },
+        "name": "Era of ‘Biological Annihilation’ Is Underway, Scientists Warn",
+        "potentialAction": [
+          {
+            "@type": "ViewAction",
+            "actionStatus": "CompletedActionStatus",
+            "endTime": {
+              "@type": "xsd:date",
+              "@value": "2017-12-10"
+            }
+          }
+        ],
+        "url": "https://www.nytimes.com/2017/07/11/climate/mass-extinction-animal-species.html?_r=0"
+      },
+      {
+        "@id": "node:ami84",
+        "@type": "Interview",
+        "compiler": {
+          "@type": "Person",
+          "familyName": "Bock",
+          "givenName": "C."
+        },
+        "interviewee": {
+          "@type": "Person",
+          "familyName": "Amis",
+          "givenName": "Kingsley"
+        },
+        "interviewer": {
+          "@type": "Person",
+          "familyName": "Salawak",
+          "givenName": "Dale"
+        },
+        "broadcaster": {
+          "@type": "Organization",
+          "name": "NBC"
+        },
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "1984-06-21"
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "familyName": "Gaitskill",
+            "givenName": "M."
+          }
+        ],
+        "identifier": "Ami84",
+        "isPartOf": {
+          "@type": "BroadcastEvent",
+          "name": "Interviews with Britain’s Angry Young Men"
+        },
+        "isbn": "0893701599",
+        "location": {
+          "@type": "RadioStation",
+          "name": "CNBC"
+        },
+        "name": "Mimic and Moralist",
+        "pageEnd": 50,
+        "pageStart": 129,
+        "producer": [
+          {
+            "@type": "Person",
+            "familyName": "Salawak",
+            "givenName": "Dale"
+          }
+        ],
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressCountry": "USA",
+            "addressLocality": "New York",
+            "addressRegion": "NY"
+          },
+          "name": "Wiley"
+        },
+        "translator": {
+          "@type": "Person",
+          "familyName": "Sony",
+          "givenName": "Roger"
+        }
+      },
+      {
+        "@id": "node:nw200",
+        "@type": "Legislation",
+        "counsel": {
+          "@type": "Person",
+          "familyName": "Black",
+          "givenName": "H."
+        },
+        "legislationIdentifier": 299,
+        "legislationType": "case",
+        "reporter": {
+          "@type": "Person",
+          "additionalName": "D.",
+          "familyName": "Nelson",
+          "givenName": "Michael"
+        },
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2000-11-03"
+        },
+        "identifier": "NW200",
+        "location": {
+          "@type": "Courthouse",
+          "name": "Nebraska Supreme Court"
+        },
+        "name": "Beachy v. Becerra"
+      },
+      {
+        "@id": "node:chr71",
+        "@type": "Patent",
+        "inventor": {
+          "@type": "Person",
+          "additionalName": "Kirk",
+          "familyName": "Christensen",
+          "givenName": "Godtfred"
+        },
+        "patentNumber": "3,597,875",
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "1971-08-10"
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "familyName": "Interlego",
+            "givenName": "J."
+          }
+        ],
+        "identifier": "Chr71",
+        "name": "Toy building set"
+      },
+      {
+        "@id": "node:dan09",
+        "@type": "Event",
+        "writer": [
+          {
+            "@type": "Person",
+            "familyName": "Daniels",
+            "givenName": "G."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Schur",
+            "givenName": "M."
+          }
+        ],
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2009-04-09"
+        },
+        "director": {
+          "@type": "Person",
+          "familyName": "Klein",
+          "givenName": "H."
+        },
+        "identifier": "Dan09",
+        "location": {
+          "@type": "PerformingArtsTheater",
+          "name": "Universal Media Studios"
+        },
+        "name": "94 Meetings",
+        "performer": {
+          "@type": "Person",
+          "familyName": "Poehler",
+          "givenName": "A."
+        },
+        "producer": [
+          {
+            "@type": "Organization",
+            "name": "Deedle-Dee Productions;"
+          }
+        ]
+      },
+      {
+        "@id": "node:goy00",
+        "@type": "VisualArtwork",
+        "artist": {
+          "@type": "Person",
+          "familyName": "Goya",
+          "givenName": "Francisco"
+        },
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 1800
+        },
+        "identifier": "Goy00",
+        "isPartOf": {
+          "@type": "Book",
+          "resourceOf": "graph:e60fae92-fb79-4da8-943a-0b585383135b",
+          "dateCreated": "2018-12-27T02:54:54.554Z",
+          "name": "Gardener's Art through the Ages"
+        },
+        "name": "The Family of Charles IV",
+        "pageStart": 939,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressCountry": "Spain",
+            "addressLocality": "Madrid"
+          },
+          "name": "Harcourt Brace",
+          "parentOrganization": "Museo del Prado"
+        }
+      },
+      {
+        "@id": "node:ber17",
+        "@type": "MusicRecording",
+        "conductor": {
+          "@type": "Person",
+          "familyName": "Slatkin",
+          "givenName": "L."
+        },
+        "recordingNumber": 114,
+        "alternateName": "Symphony",
+        "artist": {
+          "@type": "Person",
+          "familyName": "Bernstein",
+          "givenName": "L."
+        },
+        "composer": {
+          "@type": "Person",
+          "familyName": "Bernstein",
+          "givenName": "L."
+        },
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 2017
+        },
+        "encodingFormat": "Compact Disc",
+        "identifier": "Ber17",
+        "isPartOf": {
+          "@type": "MusicAlbum",
+          "dateCreated": "2018-12-27T02:54:54.554Z",
+          "name": "Something's coming: Bernstein's Philharmonic"
+        },
+        "name": "Symphony No. 3, Kaddish",
+        "performer": [
+          {
+            "@type": "Person",
+            "familyName": "Irons",
+            "givenName": "J."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Phelps",
+            "givenName": "C."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Brey",
+            "givenName": "C."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Wilson",
+            "givenName": "T."
+          }
+        ],
+        "producer": [
+          {
+            "@type": "Organization",
+            "name": "New York Philharmonic"
+          }
+        ]
+      },
+      {
+        "@id": "node:mcq95",
+        "@type": "Movie",
+        "distributor": {
+          "@type": "Organization",
+          "name": "Gramercy Pictures (I)"
+        },
+        "writer": {
+          "@type": "Person",
+          "familyName": "McQuarrie",
+          "givenName": "C."
+        },
+        "datePublished": {
+          "@type": "xsd:gYear",
+          "@value": 1995
+        },
+        "director": {
+          "@type": "Person",
+          "familyName": "Singer",
+          "givenName": "Bryan"
+        },
+        "encodingFormat": "Screenplay",
+        "identifier": "McQ95",
+        "name": "The Usual Suspects",
+        "performer": [
+          {
+            "@type": "Person",
+            "familyName": "Spacey",
+            "givenName": "K."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Byrne",
+            "givenName": "G."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Palminteri",
+            "givenName": "C."
+          },
+          {
+            "@type": "Person",
+            "familyName": "Baldwin",
+            "givenName": "S."
+          },
+          {
+            "@type": "Person",
+            "familyName": "del Toro",
+            "givenName": "B."
+          }
+        ],
+        "producer": [
+          {
+            "@type": "Organization",
+            "name": "Polygram"
+          }
+        ]
+      },
+      {
+        "@id": "node:smi181",
+        "@type": "CreativeWork",
+        "alternateName": "Surfer Monthly",
+        "author": [
+          {
+            "@type": "Person",
+            "familyName": "Smith",
+            "givenName": "Paul"
+          },
+          {
+            "@type": "Person",
+            "additionalName": "A",
+            "familyName": "Jones",
+            "givenName": "Karen"
+          }
+        ],
+        "bookEdition": 2,
+        "datePublished": {
+          "@type": "xsd:date",
+          "@value": "2018-01-02"
+        },
+        "editor": [
+          {
+            "@type": "Person",
+            "familyName": "Slater",
+            "givenName": "Kelly"
+          }
+        ],
+        "encodingFormat": "Print",
+        "identifier": "Smi181",
+        "isPartOf": {
+          "@type": "PublicationIssue",
+          "isPartOf": {
+            "@type": "PublicationVolume",
+            "isPartOf": {
+              "@type": "CreativeWork",
+              "dateCreated": "2018-12-27T02:54:54.554Z",
+              "name": "The Surfing Publication"
+            },
+            "volumeNumber": 17
+          },
+          "issueNumber": 1
+        },
+        "name": "A new wave",
+        "pageEnd": 20,
+        "pageStart": 1,
+        "publisher": {
+          "@type": "Organization",
+          "location": {
+            "@type": "PostalAddress",
+            "addressCountry": "USA",
+            "addressLocality": "New York",
+            "addressRegion": "NY"
+          },
+          "name": "Adventure Works Press"
+        }
+      },
+      {
+        "@id": "node:kill11324",
+        "@type": "TargetRole",
+        "hasSelector": {
+          "@type": "Selector",
+          "name": 324
+        },
+        "citation": "node:kil11",
+        "name": "Kilpatrick 2011, 324"
+      }
+    ]
+  }
+]

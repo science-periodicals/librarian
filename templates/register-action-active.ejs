@@ -1,0 +1,15 @@
+<% var recipient = hydrate(unrole(hydrate(arrayify(emailMessage.recipient)[0]), 'recipient')) %>
+<% var displayName = recipient.name || unprefix(getId(recipient)) || recipient.email %>
+<p>
+  Hello,
+</p>
+<p>
+  You recently signed up for <a href="https://sci.pe" title="science periodicals">sci.pe</a> as <em><%= displayName %></em>.
+</p>
+<p>
+  To confirm (and activate) your registration, visit:
+  <a href="https://sci.pe/register?token=<%= unprefix(getId(registrationToken)) %>">https://sci.pe/register?token=<%= unprefix(getId(registrationToken))  %></a>.
+</p>
+<p>
+  Thank you.
+</p>
