@@ -342,16 +342,52 @@ export async function validateAndSetupWorkflowSpecification(
   const assessActions = nodes.filter(node => node['@type'] === 'AssessAction');
 
   const orphanStages = stages.filter(stage => {
-    // if the stage is linked (not orphan) then it must be listed in the `potentialResult` of an assessAction
+    // if the stage is linked (not orphan) then it must be listed in the
+    // `potentialResult` of an assessAction
+    // !! we need to exclude stage linked to themselves as those can
+    // still be orphans
     const isLinked = assessActions.some(assessAction => {
-      return arrayify(assessAction.potentialResult).some(
-        result => getId(result) === getId(stage)
-      );
+      const assessActionStage = stages.find(stage => {
+        return arrayify(stage.result).some(result => {
+          if (getId(result) === getId(assessAction)) {
+            return true;
+          }
+
+          // the `assessAction` may be listed as potential action of a
+          // `CreateReleaseAction` part of `stage.result`
+          const action = nodes.find(node => getId(node) === getId(result));
+          if (action && action['@type'] === 'CreateReleaseAction') {
+            const result = nodes.find(
+              node => getId(node) === getId(action.result)
+            );
+            if (
+              result &&
+              arrayify(result.potentialAction).some(action => {
+                getId(action) === getId(assessAction);
+              })
+            ) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+      });
+
+      return arrayify(assessAction.potentialResult).some(result => {
+        return (
+          getId(result) === getId(stage) &&
+          (!getId(assessActionStage) ||
+            getId(result) !== getId(assessActionStage))
+        );
+      });
     });
     return !isLinked;
   });
 
-  // Note that the first submission stage is orphan by design => we only purge if there is stricly 1 orphan stage (the submission stage)
+  // Note that the first submission stage is orphan by design (if there is a
+  // submission stage and an unconnected stage we would have 2 "orphans") => we
+  // only purge if there is stricly 1 orphan stage (the submission stage)
   if (orphanStages.length === 1) {
     // purge
     flattened = await flatten(framedGraph, { preserveUuidBlankNodes: true });

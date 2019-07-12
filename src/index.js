@@ -15,7 +15,11 @@ export { default as createStyleGuide } from './utils/create-style-guide';
 export { default as getActiveRoleNames } from './utils/get-active-role-names';
 export { default as getVisibleRoleNames } from './utils/get-visible-role-names';
 export { default as schema } from './utils/schema';
-export { getWorkflowMap, getStageId } from './utils/workflow-actions';
+export {
+  getWorkflowMap,
+  getStageId,
+  validateAndSetupWorkflowSpecification
+} from './utils/workflow-actions';
 export {
   default as getResourceBlacklist
 } from './utils/get-resource-blacklist';

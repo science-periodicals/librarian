@@ -1,5 +1,9 @@
 import assert from 'assert';
-import { getLocationIdentifier } from '../src';
+import {
+  getLocationIdentifier,
+  validateAndSetupWorkflowSpecification,
+  ALL_AUDIENCES
+} from '../src';
 
 describe('workflow-utils', function() {
   describe('getLocationIdentifier', () => {
@@ -54,6 +58,136 @@ describe('workflow-utils', function() {
         getLocationIdentifier('DeclareAction', p)
       );
       assert.equal(identifiers.length, new Set(identifiers).size);
+    });
+  });
+
+  describe('validateAndSetupWorkflowSpecification', async () => {
+    it('should purge when there are no orphan stages', async () => {
+      const workflowSpecification = {
+        '@type': 'WorkflowSpecification',
+        expectedDuration: 'P60D',
+        potentialAction: {
+          '@type': 'CreateGraphAction',
+          result: {
+            '@graph': [
+              {
+                '@type': 'Graph',
+                potentialAction: {
+                  '@id': '_:submission',
+                  '@type': 'StartWorkflowStageAction',
+                  participant: ALL_AUDIENCES,
+                  result: [
+                    {
+                      '@id': '_:reviewAction',
+                      '@type': 'ReviewAction',
+                      actionStatus: 'ActiveActionStatus',
+                      agent: {
+                        roleName: 'reviewer'
+                      },
+                      participant: {
+                        '@type': 'Audience',
+                        audienceType: 'editor'
+                      }
+                    }
+                  ]
+                }
+              },
+              // we add an orphan node the should be purged
+              {
+                '@id': '_:orphan',
+                '@type': 'DeclareAction',
+                agent: {
+                  roleName: 'author'
+                },
+                participant: ALL_AUDIENCES
+              }
+            ]
+          }
+        }
+      };
+
+      const valid = await validateAndSetupWorkflowSpecification(
+        workflowSpecification,
+        { '@id': 'journal:journalId', '@type': 'Periodical' }
+      );
+
+      // console.log(require('util').inspect(valid, { depth: null }));
+      const nodes = valid.potentialAction.result['@graph'];
+      assert(!nodes.some(node => node['@type'] === 'DeclareAction'));
+    });
+
+    it('should not purge orphan stages', async () => {
+      const workflowSpecification = {
+        '@type': 'WorkflowSpecification',
+        expectedDuration: 'P60D',
+        potentialAction: {
+          '@type': 'CreateGraphAction',
+          result: {
+            '@graph': [
+              {
+                '@type': 'Graph',
+                potentialAction: {
+                  '@id': '_:submission',
+                  '@type': 'StartWorkflowStageAction',
+                  participant: ALL_AUDIENCES,
+                  result: [
+                    {
+                      '@id': '_:reviewAction',
+                      '@type': 'ReviewAction',
+                      actionStatus: 'ActiveActionStatus',
+                      agent: {
+                        roleName: 'reviewer'
+                      },
+                      participant: {
+                        '@type': 'Audience',
+                        audienceType: 'editor'
+                      }
+                    }
+                  ]
+                }
+              },
+              // we add an orphan stage linked to itself as linking to self can
+              // cause bug in the orphan stage detection algorithm
+              {
+                '@id': '_:orphan',
+                '@type': 'StartWorkflowStageAction',
+                name: 'orphan',
+                participant: ALL_AUDIENCES,
+                result: [
+                  {
+                    '@id': '_:assessAction',
+                    '@type': 'AssessAction',
+                    agent: {
+                      roleName: 'editor'
+                    },
+                    participant: [
+                      {
+                        '@type': 'Audience',
+                        audienceType: 'editor'
+                      },
+                      {
+                        '@type': 'Audience',
+                        audienceType: 'reviewer'
+                      }
+                    ],
+                    potentialResult: ['_:orphan']
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      };
+
+      // TODO
+      const valid = await validateAndSetupWorkflowSpecification(
+        workflowSpecification,
+        { '@id': 'journal:journalId', '@type': 'Periodical' }
+      );
+
+      // console.log(require('util').inspect(valid, { depth: null }));
+      const nodes = valid.potentialAction.result['@graph'];
+      assert(nodes.some(node => node.name === 'orphan'));
     });
   });
 });
