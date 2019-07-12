@@ -202,10 +202,16 @@ export default async function handleCreateGraphAction(
 
   const now = new Date();
 
+  const encryptionKey = {
+    '@type': 'EncryptionKey',
+    value: crypto.randomBytes(32).toString('hex'),
+    initializationVector: crypto.randomBytes(16).toString('hex')
+  };
+
   graph = await flattenAndNormalizeGraph(
     setId(
       Object.assign(
-        {},
+        { encryptionKey },
         omit(graph, ['potentialAction']),
         // template overwrite graph...
         omit(graphTemplate, ['potentialAction']),
@@ -220,11 +226,6 @@ export default async function handleCreateGraphAction(
           '@context': contextUrl,
           '@type': 'Graph',
           creator: agentId,
-          encryptionKey: {
-            '@type': 'EncryptionKey',
-            value: crypto.randomBytes(32).toString('hex'),
-            initializationVector: crypto.randomBytes(16).toString('hex')
-          },
           dateCreated: now.toISOString(),
           expectedDatePublishedOrRejected: moment(now)
             .add(moment.duration(workflowSpecification.expectedDuration))
@@ -233,7 +234,13 @@ export default async function handleCreateGraphAction(
           isPartOf: getId(periodical),
           publisher: getId(periodical.publisher),
           workflow: getId(workflowSpecification)
-        }
+        },
+        // in strict mode we do not let user specify encryption key
+        strict
+          ? {
+              encryptionKey
+            }
+          : undefined // in non strict mode we let user specify an encryption key in the graph. This is mostly useful for stories so that we have stable anonymous @id across various runs of the story
       ),
       graphId
     ),
