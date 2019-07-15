@@ -572,7 +572,11 @@ export default async function resolve(
 
       const resolvedMap = {};
       for (const comment of arrayify(action.comment)) {
-        if (comment.ifMatch && comment.ifMatch.includes('checksum=')) {
+        if (
+          comment &&
+          comment.ifMatch &&
+          comment.ifMatch.includes('checksum=')
+        ) {
           const algo = querystring.parse(comment.ifMatch.split('?')[1])
             .checksum;
 
@@ -599,7 +603,11 @@ export default async function resolve(
           comment: dearrayify(
             action.comment,
             arrayify(action.comment).map(comment => {
-              if (comment.ifMatch && comment.ifMatch in resolvedMap) {
+              if (
+                comment &&
+                comment.ifMatch &&
+                comment.ifMatch in resolvedMap
+              ) {
                 return Object.assign({}, comment, {
                   ifMatch: resolvedMap[comment.ifMatch]
                 });

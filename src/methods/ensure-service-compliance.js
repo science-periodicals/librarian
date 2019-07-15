@@ -130,6 +130,12 @@ export default async function ensureServiceCompliance(
     }
   );
 
+  // `action.comment` can be explicitly set to `null` to reset revision request
+  // comments on a TypesettingAction
+  if (action.comment == null) {
+    delete action.comment;
+  }
+
   // Be sure that `comment` have an @id and dateCreated
   if (action.comment) {
     action.comment = dearrayify(
