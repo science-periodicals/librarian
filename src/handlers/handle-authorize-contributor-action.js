@@ -224,7 +224,7 @@ export default async function handleAuthorizeContributorAction(
 
       // we allow to specify a sameAs @id when adding periodical roles to a
       // graph. This is to allow to specify the graph role ahead of time. When
-      // we do that we remove the sameAs from the graph role (to ensuire that
+      // we do that we remove the sameAs from the graph role (to ensure that
       // the roleId is unique to the graph so that we can keep blinding
       // management simple) but set the graph role @id to the sameAs value
       const sameAsId = getId(action.recipient.sameAs);

@@ -19,9 +19,11 @@ describe('InviteAction, AcceptAction, RejectAction', function() {
     accepter,
     rejecter,
     accepter2,
+    journalReviewer,
     organization,
     periodical,
     workflowSpecification,
+    defaultCreateGraphAction,
     graph;
 
   before(async () => {
@@ -31,6 +33,7 @@ describe('InviteAction, AcceptAction, RejectAction', function() {
     accepter = await registerUser();
     accepter2 = await registerUser();
     rejecter = await registerUser();
+    journalReviewer = await registerUser();
 
     const createOrganizationAction = await librarian.post(
       {
@@ -102,6 +105,34 @@ describe('InviteAction, AcceptAction, RejectAction', function() {
 
     periodical = createPeriodicalAction.result;
 
+    // add a journal reviewer
+    const inviteAction = await librarian.post(
+      {
+        '@type': 'InviteAction',
+        actionStatus: 'ActiveActionStatus',
+        agent: getId(arrayify(periodical.editor)[0]),
+        recipient: {
+          roleName: 'reviewer',
+          recipient: getId(journalReviewer)
+        },
+        object: periodical['@id']
+      },
+      { acl: user }
+    );
+
+    // make the recipient accept the invite
+    const acceptAction = await librarian.post(
+      {
+        '@type': 'AcceptAction',
+        actionStatus: 'CompletedActionStatus',
+        agent: getId(journalReviewer),
+        object: inviteAction['@id']
+      },
+      { acl: journalReviewer }
+    );
+    // console.log(require('util').inspect(acceptAction, { depth: null }));
+    periodical = acceptAction.result.result;
+
     const createWorkflowSpecificationAction = await librarian.post(
       {
         '@type': 'CreateWorkflowSpecificationAction',
@@ -164,7 +195,7 @@ describe('InviteAction, AcceptAction, RejectAction', function() {
     );
     workflowSpecification = createWorkflowSpecificationAction.result;
 
-    const defaultCreateGraphAction = arrayify(
+    defaultCreateGraphAction = arrayify(
       workflowSpecification.potentialAction
     ).find(action => action['@type'] === 'CreateGraphAction');
 
@@ -312,6 +343,76 @@ describe('InviteAction, AcceptAction, RejectAction', function() {
       const reconciled = await librarian.get(inviteAction, { acl: user });
 
       assert.equal(reconciled.recipient.recipient['@id'], registree['@id']);
+    });
+
+    it('should handle sameAs in non strict mode', async () => {
+      const createGraphAction = await librarian.post(
+        Object.assign({}, defaultCreateGraphAction, {
+          actionStatus: 'CompletedActionStatus',
+          agent: user['@id'],
+          participant: periodical.editor[0],
+          result: {
+            '@type': 'Graph',
+            editor: {
+              roleName: 'editor',
+              editor: user['@id']
+            }
+          }
+        }),
+        { acl: user, skipPayments: true }
+      );
+
+      graph = createGraphAction.result;
+
+      const reviewAction = arrayify(graph.potentialAction).find(
+        action => action['@type'] === 'ReviewAction'
+      );
+
+      const graphReviewerRoleId = createId('role', null)['@id'];
+      const inviteAction = await librarian.post(
+        {
+          '@type': 'InviteAction',
+          actionStatus: 'ActiveActionStatus',
+          agent: getId(arrayify(graph.editor)[0]),
+          purpose: getId(reviewAction),
+          recipient: {
+            '@id': getId(arrayify(periodical.reviewer)[0]),
+            sameAs: graphReviewerRoleId
+          },
+          object: graph['@id']
+        },
+        { acl: user, strict: false }
+      );
+
+      // console.log(require('util').inspect(inviteAction, { depth: null }));
+
+      assert(inviteAction['@id']);
+      assert(
+        getId(inviteAction.recipient.recipient).startsWith('user:'),
+        'email has been reconciled to an @id'
+      );
+
+      // make the recipient accept the invite
+      const acceptAction = await librarian.post(
+        {
+          '@type': 'AcceptAction',
+          actionStatus: 'CompletedActionStatus',
+          agent: getId(arrayify(periodical.reviewer)[0]),
+          object: inviteAction['@id']
+        },
+        { acl: journalReviewer }
+      );
+      // console.log(require('util').inspect(acceptAction, { depth: null }));
+
+      assert.equal(acceptAction.result.actionStatus, 'CompletedActionStatus');
+      const updatedGraph = acceptAction.result.result;
+      // console.log(updatedGraph.reviewer, graphReviewerRoleId);
+      assert(
+        arrayify(updatedGraph.reviewer).find(
+          role =>
+            role.roleName === 'reviewer' && getId(role) === graphReviewerRoleId
+        )
+      );
     });
   });
 

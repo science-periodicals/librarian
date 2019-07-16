@@ -15,7 +15,7 @@ export default async function handleDeclareAction(
 ) {
   const objectId = getObjectId(action);
   if (!objectId) {
-    throw createError(400, `{action['@type']} object must be a Graph`);
+    throw createError(400, `${action['@type']} object must be a Graph`);
   }
 
   const graph = await this.get(getScopeId(objectId), {
@@ -24,7 +24,7 @@ export default async function handleDeclareAction(
   });
 
   if (graph['@type'] !== 'Graph') {
-    throw createError(400, `{action['@type']} object must point to a Graph`);
+    throw createError(400, `${action['@type']} object must point to a Graph`);
   }
 
   action = await this.ensureWorkflowCompliance(action, prevAction, graph, {

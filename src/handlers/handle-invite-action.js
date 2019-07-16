@@ -144,37 +144,43 @@ export default async function handleInviteAction(
   }
 
   // when adding a producer or editor to a Graph additional restrictions applies
-  if (
-    object['@type'] === 'Graph' &&
-    (handledRecipient.roleName === 'editor' ||
-      handledRecipient.roleName === 'producer')
-  ) {
-    const journal = await this.get(getRootPartId(object), {
-      acl: false,
-      store
-    });
-
-    // we make sure that he is listed in the Periodical
+  if (object['@type'] === 'Graph') {
     if (
-      !findRole(handledRecipient, journal, {
-        ignoreEndDateOnPublicationOrRejection: true
-      })
+      handledRecipient.roleName === 'editor' ||
+      handledRecipient.roleName === 'producer'
     ) {
-      throw createError(
-        400,
-        `Invalid recipient for the ${action['@type']}. Recipient (${userId ||
-          unprefix(email)}) must be listed in the Periodical ${
-          handledRecipient.roleName
-        }s`
-      );
+      const journal = await this.get(getRootPartId(object), {
+        acl: false,
+        store
+      });
+
+      // we make sure that he is listed in the Periodical
+      if (
+        !findRole(handledRecipient, journal, {
+          ignoreEndDateOnPublicationOrRejection: true
+        })
+      ) {
+        throw createError(
+          400,
+          `Invalid recipient for the ${action['@type']}. Recipient (${userId ||
+            unprefix(email)}) must be listed in the Periodical ${
+            handledRecipient.roleName
+          }s`
+        );
+      }
     }
 
+    // In case where we invite a journal role (including reviewers) to a graph,
+    // we can set the graph role @id (different from the journal role @id) through
+    // the sameAs property
+    // Here we replicate the recipient @id by the sameAs
+    // Note: this must be done after validation
     if (!strict) {
-      // In case where we invite a journal role to a graph, we can set the graph
-      // role @id (different from the journal role @id) through the sameAs property
-      // Here we replicate the recipient @id by the sameAs
-      // Note: this must be done after validation
-      if (action.recipient && action.recipient.sameAs) {
+      if (
+        action.recipient &&
+        getId(action.recipient.sameAs) &&
+        getId(action.recipient.sameAs).startsWith('role:')
+      ) {
         handledRecipient['@id'] = getId(action.recipient.sameAs);
       }
     }

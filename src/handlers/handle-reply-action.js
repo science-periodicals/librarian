@@ -93,7 +93,7 @@ export default async function handleReplyAction(
       400,
       `Invalid agent for ${
         action['@type']
-      }, agent could not be found in the Graph`
+      }, agent could not be found in the Graph ${getId(graph)}`
     );
   }
 

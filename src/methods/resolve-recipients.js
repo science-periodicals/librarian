@@ -128,7 +128,7 @@ export default async function resolveRecipients(
 
     if (recipientId) {
       if (recipientId.startsWith('role:')) {
-        // validate role: must be present in scope or journal (in strict mode) and can be a new role (but must be UUID in non strict mode)
+        // validate role: must be present in scope or journal in strict mode and can be a new role (but must be UUID) in non strict mode
         let scopeRole = findRole(recipient, scope, {
           strict: true,
           ignoreEndDateOnPublicationOrRejection: true
