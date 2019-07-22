@@ -114,7 +114,7 @@ export default async function checkWriteAcl(action, { store, acl } = {}) {
     throw err;
   }
 
-  if (check('readOnlyUser')) {
+  if (check('acl:readOnlyUser')) {
     throw createError(403, 'not allowed, readOnlyUser cannot write');
   }
 

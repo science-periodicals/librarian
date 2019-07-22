@@ -24,7 +24,7 @@ export default async function checkDeleteAcl(object, { acl, store } = {}) {
     checkActiveInviteActions: false
   });
 
-  if (check('readOnlyUser')) {
+  if (check('acl:readOnlyUser')) {
     throw createError(403, 'not allowed, readOnlyUser cannot delete');
   }
 

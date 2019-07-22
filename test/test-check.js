@@ -3,11 +3,65 @@ import omit from 'lodash/omit';
 import { arrayify, getId } from '@scipe/jsonld';
 import uuid from 'uuid';
 import registerUser from './utils/register-user';
-import { Librarian, createId, ALL_AUDIENCES } from '../src';
+import { Librarian, createId, ALL_AUDIENCES, getResult } from '../src';
 
 describe('checkAcl and checkPublicAvailability', function() {
   this.timeout(40000);
   const librarian = new Librarian({ skipPayments: true });
+
+  describe('readOnlyUser', () => {
+    let user, readOnlyUser;
+    before(async () => {
+      user = await registerUser();
+      readOnlyUser = await registerUser({ memberOf: 'acl:readOnlyUser' });
+    });
+
+    it('should not let readOnlyUser post actions', async () => {
+      await assert.rejects(
+        librarian.checkWriteAcl(
+          {
+            '@type': 'CreateOrganizationAction',
+            agent: getId(readOnlyUser),
+            actionStatus: 'CompletedActionStatus',
+            result: {
+              '@id': createId('org', uuid.v4())['@id'],
+              '@type': 'Organization',
+              name: 'org'
+            }
+          },
+          { acl: readOnlyUser }
+        ),
+        {
+          code: 403
+        }
+      );
+    });
+
+    it('should not let readOnlyUser delete objects', async () => {
+      const createOrganizationAction = await librarian.post(
+        {
+          '@type': 'CreateOrganizationAction',
+          agent: getId(user),
+          actionStatus: 'CompletedActionStatus',
+          result: {
+            '@id': createId('org', uuid.v4())['@id'],
+            '@type': 'Organization',
+            name: 'org'
+          }
+        },
+        { acl: user }
+      );
+
+      await assert.rejects(
+        librarian.checkDeleteAcl(getResult(createOrganizationAction), {
+          acl: readOnlyUser
+        }),
+        {
+          code: 403
+        }
+      );
+    });
+  });
 
   describe('public periodical', function() {
     let author, editor, producer, periodical, graph, release;
