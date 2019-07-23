@@ -67,7 +67,6 @@ export default function getPendingEncodingByContentUrl(
         }
 
         if (encoding) {
-          encoding.resultOf = action; // for ACL purpose
           return callback(
             null,
             // set `isNodeOf` so that the scope is defined
