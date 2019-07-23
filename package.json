@@ -1,6 +1,6 @@
 {
   "name": "@scipe/librarian",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "The only source of truth in data",
   "preferGlobal": true,
   "main": "dist/index.js",
