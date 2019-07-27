@@ -497,14 +497,14 @@ async function anonymizeGraph(
     ignoreEndDateOnPublicationOrRejection
   });
 
-  // open peer review => no need for anonymization
+  // open peer review => no need for anonymization (but we still omit the `encryptionKey`)
   if (
     visibleRoleNames.has('author') &&
     visibleRoleNames.has('reviewer') &&
     visibleRoleNames.has('editor') &&
     visibleRoleNames.has('producer')
   ) {
-    return graph;
+    return omit(graph, ['encryptionKey']);
   }
 
   let anonymizedGraph = Object.keys(graph).reduce((anonymizedGraph, key) => {
