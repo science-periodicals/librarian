@@ -58,27 +58,30 @@ export default function createIoSource(ioSourceName, cache) {
 
     case 'db':
       // Note we use `{admin: true}` instead of `this.authHeaders ? { authHeaders: this.authHeaders } : { admin: true }` so that we don't need to recreate the DB after logout
-      ioSource = createDb(this.config, { admin: true });
+      ioSource = createDb(this.config, { admin: true, logger: this.log });
       break;
 
     case 'search':
     case 'view':
       // Note we use `{admin: true}` instead of `this.authHeaders ? { authHeaders: this.authHeaders } : { admin: true }` so that we don't need to recreate the DB after logout
-      ioSource = createDb(
-        this.config,
-        Object.assign(
-          { ddoc: 'scienceai', [ioSourceName]: true },
-          { admin: true }
-        )
-      );
+      ioSource = createDb(this.config, {
+        ddoc: 'scienceai',
+        [ioSourceName]: true,
+        admin: true,
+        logger: this.log
+      });
       break;
 
     case 'authDb':
-      ioSource = createAuthDb(this.config);
+      ioSource = createAuthDb(this.config, { logger: this.log });
       break;
 
     case 'authDbView':
-      ioSource = createAuthDb(this.config, { ddoc: 'auth', view: true });
+      ioSource = createAuthDb(this.config, {
+        ddoc: 'auth',
+        view: true,
+        logger: this.log
+      });
       break;
 
     case 'tokenStore': {

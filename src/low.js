@@ -13,13 +13,7 @@ import uniq from 'lodash/uniq';
 import reEmail from 'regex-email';
 import { parseIndexableString } from '@scipe/collate';
 import createError from '@scipe/create-error';
-import {
-  arrayify,
-  getValue,
-  textify,
-  unrole,
-  unprefix
-} from '@scipe/jsonld';
+import { arrayify, getValue, textify, unrole, unprefix } from '@scipe/jsonld';
 import toMarkdown from './utils/to-markdown';
 import createCouchClient from './utils/create-couch-client';
 import {
@@ -75,7 +69,7 @@ export function createDb(config = {}, opts = {}) {
     defaults.headers = opts.authHeaders;
   }
 
-  return createCouchClient(request.defaults(defaults));
+  return createCouchClient(request.defaults(defaults), config, opts.logger);
 }
 
 export function createAuthDb(config = {}, opts = {}) {
@@ -95,7 +89,9 @@ export function createAuthDb(config = {}, opts = {}) {
     request.defaults({
       baseUrl,
       auth: getAdminAuthHeaders(config)
-    })
+    }),
+    config,
+    opts.logger
   );
 }
 
