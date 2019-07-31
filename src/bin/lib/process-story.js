@@ -91,7 +91,7 @@ export default function processStory(cmd, story, config, opts, callback) {
         (err, handledActions) => {
           if (err) {
             if (!verbose) {
-              console.error('error on step ${i-1}:');
+              console.error(`error on step ${i - 1}:`);
               console.error(util.inspect(action, { depth: null }));
             }
             return cb(err);
