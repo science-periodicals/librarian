@@ -34,7 +34,7 @@ export default function get(object, opts, callback) {
     store,
     anonymize = false,
     acl, // boolean or user
-    potentialActions: optsPotentialActions = 'bare', // `true`, `false`, 'all', 'bare', 'dashboard' or an object with a @type prop containing a list of @types
+    potentialActions: optsPotentialActions = 'bare', // `true`, `false`, `all`, `bare`, `dashboard`, `reader` or an object with a @type prop containing a list of @types
     lucene = false // boolean
   } = opts;
 
@@ -601,10 +601,13 @@ function maybeFetchPotentialActions(
         callback(null, potentialActionMap);
       }
     );
-  } else if (optsPotentialActions === 'dashboard') {
-    // Get the TagAction and the StartWorklowStageAction
+  } else if (
+    optsPotentialActions === 'dashboard' ||
+    optsPotentialActions === 'reader'
+  ) {
+    // Get the TagAction (`dashboard`) and the StartWorklowStageAction (`dashboard` and `reader`))
     // This is usefull to have a reasonably performant loading time for the
-    // app-suite Dashboard where we need to render the timeline and the tags
+    // app-suite where we need to render the timeline, the tags and / or the workflow badge
     const potentialActionMap = {};
 
     const scopeIds = Array.from(
@@ -620,11 +623,17 @@ function maybeFetchPotentialActions(
       {
         url: '/actionsByScopeIdAndType',
         json: {
-          keys: scopeIds
-            .map(scopeId => [scopeId, 'TagAction'])
-            .concat(
-              scopeIds.map(scopeId => [scopeId, 'StartWorkflowStageAction'])
-            )
+          keys:
+            optsPotentialActions === 'reader'
+              ? scopeIds.map(scopeId => [scopeId, 'StartWorkflowStageAction'])
+              : scopeIds
+                  .map(scopeId => [scopeId, 'TagAction'])
+                  .concat(
+                    scopeIds.map(scopeId => [
+                      scopeId,
+                      'StartWorkflowStageAction'
+                    ])
+                  )
         },
         qs: {
           reduce: false,

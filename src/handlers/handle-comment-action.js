@@ -233,7 +233,7 @@ export default async function handleCommentAction(
   }
 
   // Get the workflow action audience
-  // !! the audience of the workflow action can change with the action is
+  // !! the audience of the workflow action can change when the action is
   // completed or endorsed
   // The audience of the comment action is the audience of the staged workflow
   // action (not more)
