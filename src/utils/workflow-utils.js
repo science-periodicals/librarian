@@ -564,7 +564,10 @@ export function getVersion(id) {
   }
 }
 
-export function addPublicAudience(action, { now = new Date().toISOString() }) {
+export function addPublicAudience(
+  action,
+  { now = new Date().toISOString() } = {}
+) {
   // update public audience (if any)
   const nextParticipants = arrayify(action.participant).map(role => {
     const unroled = unrole(role, 'participant');
@@ -595,10 +598,14 @@ export function addPublicAudience(action, { now = new Date().toISOString() }) {
       );
     })
   ) {
-    // `handleParticipants` will upgrade to `AudienceRole` etc.
+    // `handleParticipants` will set @id etc.
     nextParticipants.push({
-      '@type': 'Audience',
-      audienceType: 'public'
+      '@type': 'AudienceRole',
+      startDate: now,
+      participant: {
+        '@type': 'Audience',
+        audienceType: 'public'
+      }
     });
   }
 

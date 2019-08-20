@@ -132,27 +132,29 @@ export default async function handleReviewAction(
     }
   }
 
+  const now = new Date().toISOString();
   const handledAction = handleUserReferences(
     handleParticipants(
       Object.assign(
         {},
         action.actionStatus !== 'PotentialActionStatus'
           ? {
-              startTime: new Date().toISOString()
+              startTime: now
             }
           : undefined,
         action.actionStatus === 'StagedActionStatus'
-          ? { stagedTime: new Date().toISOString() }
+          ? { stagedTime: now }
           : undefined,
         action.actionStatus === 'CompletedActionStatus' ||
           action.actionStatus === 'FailedActionStatus'
           ? {
-              endTime: new Date().toISOString()
+              endTime: now
             }
           : undefined,
         action
       ),
-      graph
+      graph,
+      now
     ),
     graph
   );

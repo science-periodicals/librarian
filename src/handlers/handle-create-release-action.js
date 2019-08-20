@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import createError from '@scipe/create-error';
 import { getId, arrayify } from '@scipe/jsonld';
-import { getDbName } from '../low';
 import createId from '../create-id';
 import handleParticipants from '../utils/handle-participants';
 import handleUserReferences from '../utils/handle-user-references';
@@ -154,7 +153,8 @@ export default async function handleCreateReleaseAction(
                   ]) // we embed the description so that the release notes are easily available in the UI
                 }
               ),
-              graph
+              graph,
+              endTime
             ),
             graph
           ),
@@ -275,6 +275,7 @@ export default async function handleCreateReleaseAction(
 
     default: {
       // Just save the action
+      const now = new Date().toISOString();
       const handledAction = setId(
         handleUserReferences(
           handleParticipants(
@@ -282,20 +283,21 @@ export default async function handleCreateReleaseAction(
               {},
               action.actionStatus !== 'PotentialActionStatus'
                 ? {
-                    startTime: new Date().toISOString()
+                    startTime: now
                   }
                 : undefined,
               action.actionStatus === 'StagedActionStatus'
-                ? { stagedTime: new Date().toISOString() }
+                ? { stagedTime: now }
                 : undefined,
               action.actionStatus === 'FailedActionStatus'
                 ? {
-                    endTime: new Date().toISOString()
+                    endTime: now
                   }
                 : undefined,
               action
             ),
-            graph
+            graph,
+            now
           ),
           graph
         ),

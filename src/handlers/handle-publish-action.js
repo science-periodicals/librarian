@@ -218,7 +218,7 @@ export default async function handlePublishAction(
               }
             ),
             graph,
-            datePublished
+            now
           ),
           graph
         );
@@ -332,7 +332,8 @@ export default async function handlePublishAction(
           actionsToPublish.map(action =>
             handleParticipants(
               addPublicAudience(action, { now: datePublished }),
-              graph
+              graph,
+              now
             )
           ),
           getId
@@ -442,20 +443,21 @@ export default async function handlePublishAction(
               {},
               action.actionStatus !== 'PotentialActionStatus'
                 ? {
-                    startTime: new Date().toISOString()
+                    startTime: now
                   }
                 : undefined,
               action.actionStatus === 'StagedActionStatus'
-                ? { stagedTime: new Date().toISOString() }
+                ? { stagedTime: now }
                 : undefined,
               action.actionStatus === 'FailedActionStatus'
                 ? {
-                    endTime: new Date().toISOString()
+                    endTime: now
                   }
                 : undefined,
               action
             ),
-            graph
+            graph,
+            now
           ),
           graph
         );

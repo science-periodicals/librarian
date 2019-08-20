@@ -254,6 +254,8 @@ describe('PublishAction', function() {
       )
     );
 
+    // console.log(require('util').inspect(publishAction, { depth: null }));
+
     // check that public audience was added to the publishAction
     assert(
       arrayify(publishAction.participant).some(role => {

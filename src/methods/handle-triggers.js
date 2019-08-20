@@ -8,18 +8,18 @@ import { WEBIFY_ACTION_TYPES, ERROR_CODE_TRIGGERED_ACTION } from '../constants';
  * Implemented triggers:
  * `activateOn`:
  * used for:
- * - `EndorseAction` (activateOn: 'OnObjectStagedActionStatus')
+ * - `EndorseAction` (activateOn: `OnObjectStagedActionStatus`)
  *
  * `endorseOn`:
  * used for:
- * - `PayAction` (endorseOn: 'OnEndorsed')
+ * - `PayAction` (endorseOn: `OnEndorsed`)
  *
  * `completeOn`:
  * used for:
- * - `CommentAction` (completeOn: 'OnObjectCompletedActionStatus')
- * - `AuthorizeAction` (completeOn: 'OnObjectCompletedActionStatus' and completeOn: 'OnWorkflowStageEnd')
- * - Endorsed workflow action (ReviewAction etc.) (completeOn: 'OnEndorsed')
- * - `UploadAction` (completeOn: 'OnWorkerEnd')
+ * - `CommentAction` (completeOn: `OnObjectCompletedActionStatus`)
+ * - `AuthorizeAction` (completeOn: `OnObjectStagedActionStatus`,  `OnObjectCompletedActionStatus` and `OnWorkflowStageEnd`)
+ * - Endorsed workflow action (ReviewAction etc.) (completeOn: `OnEndorsed`)
+ * - `UploadAction` (completeOn: `OnWorkerEnd`)
  *
  * see https://www.youtube.com/watch?v=xDuwrtwYHu8 for a great talk on saga
  * (saga could provide an alternative implementation)

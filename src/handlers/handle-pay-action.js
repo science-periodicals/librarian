@@ -57,15 +57,16 @@ export default async function handlePayAction(
         }
       }
 
+      const now = new Date().toISOString();
       const handledAction = handleUserReferences(
         handleParticipants(
           Object.assign(
             {
-              startTime: new Date().toISOString()
+              startTime: now
             },
             omit(action, ['endorseOn', 'completeOn']),
             {
-              endTime: new Date().toISOString(),
+              endTime: now,
               // we set `result` to an `Order` to facilitate reporting in
               // app-suite payment settings (the `seller` prop gives us access to the
               // Organization)
@@ -76,7 +77,8 @@ export default async function handlePayAction(
               }
             }
           ),
-          graph
+          graph,
+          now
         ),
         graph
       );
@@ -149,29 +151,31 @@ export default async function handlePayAction(
     }
 
     default: {
+      const now = new Date().toISOString();
       const handledAction = handleUserReferences(
         handleParticipants(
           Object.assign(
             {},
             action.actionStatus !== 'PotentialActionStatus'
               ? {
-                  startTime: new Date().toISOString()
+                  startTime: now
                 }
               : undefined,
             action.actionStatus === 'EndorsedActionStatus'
-              ? { endorsedTime: new Date().toISOString() }
+              ? { endorsedTime: now }
               : undefined,
             action.actionStatus === 'StagedActionStatus'
-              ? { stagedTime: new Date().toISOString() }
+              ? { stagedTime: now }
               : undefined,
             action.actionStatus === 'FailedActionStatus'
               ? {
-                  endTime: new Date().toISOString()
+                  endTime: now
                 }
               : undefined,
             action
           ),
-          graph
+          graph,
+          now
         ),
         graph
       );

@@ -117,15 +117,18 @@ export default async function handleTypesettingAction(
         );
       }
 
+      const now = new Date().toISOString();
       handledAction = handleParticipants(
         Object.assign(
           {
-            startTime: new Date().toISOString(),
-            endTime: new Date().toISOString()
+            startTime: now,
+            endTime: now
           },
           action,
           { result: getId(uploadAction) }
-        )
+        ),
+        graph,
+        now
       );
 
       if (!sideEffects) {
@@ -171,24 +174,27 @@ export default async function handleTypesettingAction(
     }
 
     default: {
+      const now = new Date().toISOString();
       handledAction = handleParticipants(
         Object.assign(
           {},
           action.actionStatus !== 'PotentialActionStatus'
             ? {
-                startTime: new Date().toISOString()
+                startTime: now
               }
             : undefined,
           action.actionStatus === 'StagedActionStatus'
-            ? { stagedTime: new Date().toISOString() }
+            ? { stagedTime: now }
             : undefined,
           action.actionStatus === 'FailedActionStatus'
             ? {
-                endTime: new Date().toISOString()
+                endTime: now
               }
             : undefined,
           action
-        )
+        ),
+        graph,
+        now
       );
 
       if (!sideEffects) {

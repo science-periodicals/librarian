@@ -247,26 +247,28 @@ export default async function handleAssessAction(
     }
 
     default: {
+      const now = new Date().toISOString();
       const handledAction = handleUserReferences(
         handleParticipants(
           Object.assign(
             {},
             action.actionStatus !== 'PotentialActionStatus'
               ? {
-                  startTime: new Date().toISOString()
+                  startTime: now
                 }
               : undefined,
             action.actionStatus === 'StagedActionStatus'
-              ? { stagedTime: new Date().toISOString() }
+              ? { stagedTime: now }
               : undefined,
             action.actionStatus === 'FailedActionStatus'
               ? {
-                  endTime: new Date().toISOString()
+                  endTime: now
                 }
               : undefined,
             action
           ),
-          graph
+          graph,
+          now
         ),
         graph
       );
