@@ -654,6 +654,7 @@ describe('CommentAction', function() {
         triggeredCommentAction.actionStatus,
         'CompletedActionStatus'
       );
+
       // check that comment action audience was not impacted
       assert.deepEqual(getAudienceTypes(triggeredCommentAction).sort(), [
         'author',

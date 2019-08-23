@@ -182,16 +182,20 @@ export function getStageActions(stage = {}) {
 // TODO unify with `getActiveAudiences` in role-utils.js
 export function getActiveAudience(
   action,
-  { now = new Date().toISOString() } = {}
+  { now = new Date().toISOString(), restrictToActiveAndStagedAudiences } = {}
 ) {
   return arrayify(action.participant)
-    .filter(participant => {
-      const unroled = unrole(participant, 'participant');
+    .filter(role => {
+      const unroled = unrole(role, 'participant');
       return (
         unroled &&
         unroled.audienceType &&
-        (!participant.endDate || participant.endDate > now) &&
-        (!participant.startDate || participant.startDate <= now)
+        (!role.endDate || role.endDate > now) &&
+        (!role.startDate ||
+          (role.startDate <= now &&
+            (!restrictToActiveAndStagedAudiences ||
+              (restrictToActiveAndStagedAudiences &&
+                (!action.stagedTime || role.startDate <= action.stagedTime)))))
       );
     })
     .map(participant =>
@@ -208,12 +212,16 @@ export function getMetaActionParticipants(
   {
     now = new Date().toISOString(),
     addAgent = true, // if specified the agent of the `action` will be added (if not covered by the audiences)
-    restrictToAuthorsAndProducers = false // this is required for UploadAction and UpdateAction so that audience is only composed of user who can view the author identity
+    restrictToAuthorsAndProducers = false, // this is required for UploadAction and UpdateAction so that audience is only composed of user who can view the author identity
+    restrictToActiveAndStagedAudiences = false // this is used for CommentAction
   } = {}
 ) {
   const participants = [];
 
-  let activeAudiences = getActiveAudience(action, { now });
+  let activeAudiences = getActiveAudience(action, {
+    now,
+    restrictToActiveAndStagedAudiences
+  });
   if (restrictToAuthorsAndProducers) {
     activeAudiences = activeAudiences.filter(
       audience =>
@@ -653,4 +661,44 @@ function getViewIdentityPermissionMatrix(permissions) {
       return scopes.has(columnRoleName);
     });
   });
+}
+
+export function getActionStatusTime(action) {
+  return action.actionStatus === 'ActiveActionStatus' && action.startTime
+    ? action.startTime
+    : action.actionStatus === 'StagedActionStatus' && action.stagedTime
+    ? action.stagedTime
+    : action.actionStatus === 'EndorsedActionStatus' && action.endorsedTime
+    ? action.endorsedTime
+    : (action.actionStatus === 'CompletedActionStatus' ||
+        action.actionStatus === 'CanceledActionStatus' ||
+        action.actionStatus === 'FailedActionStatus') &&
+      action.endTime
+    ? action.endTime
+    : undefined;
+}
+
+export function setDefaultActionStatusTime(action, now) {
+  return Object.assign(
+    {},
+    action.actionStatus !== 'PotentialActionStatus'
+      ? {
+          startTime: now
+        }
+      : undefined,
+    action.actionStatus === 'StagedActionStatus'
+      ? { stagedTime: now }
+      : undefined,
+    action.actionStatus === 'EndorsedActionStatus'
+      ? { endorsedTime: now }
+      : undefined,
+    action.actionStatus === 'CompletedActionStatus' ||
+      action.actionStatus === 'CanceledActionStatus' ||
+      action.actionStatus === 'FailedActionStatus'
+      ? {
+          endTime: now
+        }
+      : undefined,
+    action
+  );
 }

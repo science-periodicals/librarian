@@ -21,6 +21,7 @@ import setId from '../utils/set-id';
 export default function validateAndSetupCreatedCreativeWorkRoles(
   object, // Graph or Periodical
   {
+    now = new Date().toISOString(), // used to set the startDate of the roles
     strict = true, // TODO handle
     agent, // the agent of the CreateAction creating the `object`
     participants = [], // the participants of the CreateAction creating the `object`
@@ -163,7 +164,7 @@ export default function validateAndSetupCreatedCreativeWorkRoles(
                 pick(sourceRole, COPIED_ROLE_PROPS),
                 {
                   [p]: getAgentId(sourceRole),
-                  startDate: new Date().toISOString()
+                  startDate: now
                 }
               ),
               createId(
@@ -202,7 +203,7 @@ export default function validateAndSetupCreatedCreativeWorkRoles(
               {
                 '@id': roleId !== agentId ? roleId : undefined, // we set the @id so that it get picked by setId and added to the relabelMap
                 '@type': 'ContributorRole',
-                startDate: new Date().toISOString(),
+                startDate: now,
                 roleName: p,
                 name: role.name,
                 [p]: agentId,

@@ -12,6 +12,10 @@ import { versionNodes } from '../utils/blob-utils';
 import { getObjectId } from '../utils/schema-utils';
 import { setEmbeddedIds } from '../utils/embed-utils';
 import { validateStylesAndAssets } from '../validators';
+import {
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * Take a snapshot of the live Graph
@@ -75,7 +79,7 @@ export default async function handleCreateReleaseAction(
 
       // global try catch to ensure lock is released on error
       try {
-        const endTime = new Date().toISOString();
+        const endTime = action.endTime || new Date().toISOString();
 
         let release = await this.createNash(
           versionNodes(
@@ -275,27 +279,12 @@ export default async function handleCreateReleaseAction(
 
     default: {
       // Just save the action
-      const now = new Date().toISOString();
+      const now = getActionStatusTime(action) || new Date().toISOString();
+
       const handledAction = setId(
         handleUserReferences(
           handleParticipants(
-            Object.assign(
-              {},
-              action.actionStatus !== 'PotentialActionStatus'
-                ? {
-                    startTime: now
-                  }
-                : undefined,
-              action.actionStatus === 'StagedActionStatus'
-                ? { stagedTime: now }
-                : undefined,
-              action.actionStatus === 'FailedActionStatus'
-                ? {
-                    endTime: now
-                  }
-                : undefined,
-              action
-            ),
+            setDefaultActionStatusTime(action, now),
             graph,
             now
           ),

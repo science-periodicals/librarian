@@ -6,6 +6,10 @@ import handleUserReferences from '../utils/handle-user-references';
 import getScopeId from '../utils/get-scope-id';
 import { getObjectId } from '../utils/schema-utils';
 import createId from '../create-id';
+import {
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * A PayAction must be part of a workflow
@@ -57,7 +61,7 @@ export default async function handlePayAction(
         }
       }
 
-      const now = new Date().toISOString();
+      const now = action.endTime || new Date().toISOString();
       const handledAction = handleUserReferences(
         handleParticipants(
           Object.assign(
@@ -151,32 +155,10 @@ export default async function handlePayAction(
     }
 
     default: {
-      const now = new Date().toISOString();
+      const now = getActionStatusTime(action) || new Date().toISOString();
+
       const handledAction = handleUserReferences(
-        handleParticipants(
-          Object.assign(
-            {},
-            action.actionStatus !== 'PotentialActionStatus'
-              ? {
-                  startTime: now
-                }
-              : undefined,
-            action.actionStatus === 'EndorsedActionStatus'
-              ? { endorsedTime: now }
-              : undefined,
-            action.actionStatus === 'StagedActionStatus'
-              ? { stagedTime: now }
-              : undefined,
-            action.actionStatus === 'FailedActionStatus'
-              ? {
-                  endTime: now
-                }
-              : undefined,
-            action
-          ),
-          graph,
-          now
-        ),
+        handleParticipants(setDefaultActionStatusTime(action, now), graph, now),
         graph
       );
 

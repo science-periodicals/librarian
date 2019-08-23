@@ -200,7 +200,7 @@ export default async function handleCreateGraphAction(
     });
   }
 
-  const now = new Date();
+  const now = new Date().toISOString();
 
   const encryptionKey = {
     '@type': 'EncryptionKey',
@@ -226,7 +226,7 @@ export default async function handleCreateGraphAction(
           '@context': contextUrl,
           '@type': 'Graph',
           creator: agentId,
-          dateCreated: now.toISOString(),
+          dateCreated: now,
           expectedDatePublishedOrRejected: moment(now)
             .add(moment.duration(workflowSpecification.expectedDuration))
             .toISOString(),
@@ -358,6 +358,7 @@ export default async function handleCreateGraphAction(
 
   graph = validateAndSetupCreatedCreativeWorkRoles(graph, {
     strict,
+    now,
     agent: enrichedAgent,
     participants: enrichedParticipants,
     agentProfile: profile,
@@ -409,12 +410,12 @@ export default async function handleCreateGraphAction(
     pickBy(
       Object.assign(
         {
-          startTime: new Date().toISOString()
+          startTime: now
         },
         action,
         {
           actionStatus: 'CompletedActionStatus',
-          endTime: new Date().toISOString(),
+          endTime: now,
           agent: handledAgent,
           participant: handledParticipants.length
             ? handledParticipants
@@ -437,10 +438,11 @@ export default async function handleCreateGraphAction(
 
   const workflowActions = [];
 
-  // We make sure that the stage starts _after_ the endTIme of the CreateGraphAction
+  // We make sure that the stage starts _after_ the endTime of the CreateGraphAction
   const stageStartDate = new Date(
     new Date(handledAction.endTime).getTime() + 1
   );
+
   if (startWorkflowStageActionTemplate) {
     const {
       startWorkflowStageAction,
@@ -484,10 +486,13 @@ export default async function handleCreateGraphAction(
   try {
     [savedAction, savedGraph, ...savedWorkflowActions] = await this.put(
       [
-        handleParticipants(handledAction, graph),
+        handleParticipants(handledAction, graph, handledAction.endTime),
         omit(graph, ['potentialAction']),
         ...workflowActions.map(action =>
-          handleUserReferences(handleParticipants(action, graph), graph)
+          handleUserReferences(
+            handleParticipants(action, graph, stageStartDate.toISOString()),
+            graph
+          )
         )
       ],
       { store, force: true }

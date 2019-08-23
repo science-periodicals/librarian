@@ -5,6 +5,10 @@ import handleParticipants from '../utils/handle-participants';
 import getScopeId from '../utils/get-scope-id';
 import { getObjectId, getAgentId } from '../utils/schema-utils';
 import createId from '../create-id';
+import {
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * EndorseAction cannot be instantiated by the user. They are instantiated
@@ -48,30 +52,15 @@ export default async function handleEndorseAction(
     store
   });
 
+  const now = getActionStatusTime(action) || new Date().toISOString();
+
   const handledAction = pickBy(
     handleParticipants(
-      Object.assign(
-        {},
-        action.actionStatus !== 'PotentialActionStatus'
-          ? {
-              startTime: new Date().toISOString()
-            }
-          : undefined,
-        action.actionStatus === 'StagedActionStatus'
-          ? { stagedTime: new Date().toISOString() }
-          : undefined,
-        action.actionStatus === 'CompletedActionStatus' ||
-          action.actionStatus === 'FailedActionStatus'
-          ? {
-              endTime: new Date().toISOString()
-            }
-          : undefined,
-        action,
-        {
-          result: getId(endorsedAction)
-        }
-      ),
-      graph
+      Object.assign(setDefaultActionStatusTime(action, now), {
+        result: getId(endorsedAction)
+      }),
+      graph,
+      now
     ),
     x => x !== undefined
   );
@@ -95,7 +84,7 @@ export default async function handleEndorseAction(
               '@id': createId('srole', null, getId(action.agent))['@id'],
               '@type': 'ContributorRole',
               roleName: 'endorser',
-              startDate: new Date().toISOString(),
+              startDate: now,
               participant: getAgentId(action.agent)
             })
         });

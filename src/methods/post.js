@@ -72,6 +72,7 @@ export default async function post(action, opts = {}) {
     isRetrying = false, // used for `processStory` in the CLI to retry from the outside
     acl,
     triggered,
+    triggerType,
     createCertificate,
     store = new Store(),
     rpc = false,
@@ -162,6 +163,8 @@ export default async function post(action, opts = {}) {
     //   `CommentAction` and `EndorseAction`
     // 3. re-run the handler with `sideEffects` set to `true`
     // 4. re-run the triggers (without restriction)
+
+    let preTriggeredActions;
     if (
       action['@type'] === 'EndorseAction' ||
       action['@type'] === 'DeclareAction' ||
@@ -181,6 +184,7 @@ export default async function post(action, opts = {}) {
         store,
         prevAction,
         triggered,
+        triggerType,
         createCertificate,
         mode,
         rpc,
@@ -192,7 +196,7 @@ export default async function post(action, opts = {}) {
         sideEffects: false
       });
 
-      await this.handleTriggers(preHandledAction, {
+      preTriggeredActions = await this.handleTriggers(preHandledAction, {
         store,
         strict,
         triggeredActionTypes: [
@@ -201,8 +205,20 @@ export default async function post(action, opts = {}) {
           'EndorseAction'
         ]
       });
+
+      // if `handleTriggers` had side effect on `action`, we update the
+      // ref to `prevAction` as `ensureWorkflowCompliance` will merge the relevant
+      // properties of `prevAction` into `action`.
+      // this is important for instance for the `participant` property that can
+      // be updated by the AuthorizeAction
+      if (store.has(action)) {
+        prevAction = store.get(action);
+      }
     }
 
+    // Note: the trigger (from upstream) may have had some side effect on `action` (e.g
+    // `AuthorizeAction`) changed the `participant` but this is OK as `ensureWorkflowCompliance`
+    // will make sure that the right props are backported from `prevAction` which has been updated
     let handledAction = await handleAction.call(this, action, {
       now,
       referer,
@@ -212,6 +228,7 @@ export default async function post(action, opts = {}) {
       store,
       prevAction,
       triggered,
+      triggerType,
       createCertificate,
       mode,
       rpc,
@@ -246,10 +263,10 @@ export default async function post(action, opts = {}) {
       throw err;
     }
 
-    // Handle triggers
-    let triggeredActions;
+    // (re) handle triggers (this time without restriction)
+    let postTriggeredActions;
     try {
-      triggeredActions = await this.handleTriggers(action, {
+      postTriggeredActions = await this.handleTriggers(action, {
         store,
         strict
       });
@@ -257,6 +274,10 @@ export default async function post(action, opts = {}) {
       this.log.error({ err, handledAction }, 'error during handleTriggers');
       throw err;
     }
+
+    const triggeredActions = arrayify(preTriggeredActions).concat(
+      arrayify(postTriggeredActions)
+    );
 
     this.log.debug(
       {
@@ -491,6 +512,7 @@ async function handleAction(
     acl,
     webify,
     triggered,
+    triggerType,
     prevAction,
     createCertificate,
     rpc,
@@ -511,6 +533,7 @@ async function handleAction(
     acl,
     webify,
     triggered,
+    triggerType,
     prevAction,
     createCertificate,
     rpc,

@@ -1,6 +1,6 @@
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import { getId } from '@scipe/jsonld';
+import { getId, arrayify } from '@scipe/jsonld';
 import createError from '@scipe/create-error';
 import schema from '../utils/schema';
 import createId from '../create-id';
@@ -10,7 +10,11 @@ import setId from '../utils/set-id';
 import handleParticipants from '../utils/handle-participants';
 import handleUserReferences from '../utils/handle-user-references';
 import { getObjectId } from '../utils/schema-utils';
-import { getMetaActionParticipants } from '../utils/workflow-utils';
+import {
+  getMetaActionParticipants,
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * How comments (staging discussion) works:
@@ -240,62 +244,65 @@ export default async function handleCommentAction(
   let participants;
   if (workflowAction.actionStatus === 'StagedActionStatus') {
     participants = getMetaActionParticipants(workflowAction, {
-      addAgent: getId(agent) !== getId(workflowAction.agent)
+      addAgent: getId(agent) !== getId(workflowAction.agent),
+      restrictToActiveAndStagedAudiences: true
     });
-  } else if (prevAction) {
-    participants = prevAction.participant;
+  } else if (prevAction && prevAction.participant) {
+    participants = arrayify(prevAction.participant);
   }
+
+  const now = getActionStatusTime(action) || new Date().toISOString();
 
   const handledAction = setId(
     handleUserReferences(
       handleParticipants(
-        Object.assign(
-          {
-            '@type': 'CommentAction',
-            actionStatus: 'ActiveActionStatus',
-            startTime: new Date().toISOString()
-          },
-          action.actionStatus === 'CompletedActionStatus'
-            ? { endTime: new Date().toISOString() }
-            : undefined,
-          omit(action, ['potentialAction']),
-          agent ? { agent } : undefined,
-          participants && participants.length
-            ? { participant: participants }
-            : undefined,
-          // if there is a prevAction, overwrite immutable props
-          pick(prevAction, [
-            '@id',
-            '@type',
-            '_id',
-            '_rev',
-            'startTime',
-            'instrument',
-            'object',
-            'endTime',
-            'agent'
-          ]),
-          {
-            resultComment: setId(
-              Object.assign(
-                {
-                  '@type': 'Comment',
-                  dateCreated: new Date().toISOString()
-                },
-                prevAction ? prevAction.resultComment : undefined, // we know that prevAction.resultComment is an Object and that it is defined as we validated it previously
-                action.resultComment, // we know it's an Object has we validated it above
-                // set `parentItem` in case of comment thread
-                parentItemId != null
-                  ? {
-                      parentItem: parentItemId
-                    }
-                  : undefined
-              ),
-              resultCommentId
-            )
-          }
+        setDefaultActionStatusTime(
+          Object.assign(
+            {
+              '@type': 'CommentAction',
+              actionStatus: 'ActiveActionStatus'
+            },
+            omit(action, ['potentialAction']),
+            agent ? { agent } : undefined,
+            participants && participants.length
+              ? { participant: participants }
+              : undefined,
+            // if there is a prevAction, overwrite immutable props
+            pick(prevAction, [
+              '@id',
+              '@type',
+              '_id',
+              '_rev',
+              'startTime',
+              'instrument',
+              'object',
+              'endTime',
+              'agent'
+            ]),
+            {
+              resultComment: setId(
+                Object.assign(
+                  {
+                    '@type': 'Comment',
+                    dateCreated: new Date().toISOString()
+                  },
+                  prevAction ? prevAction.resultComment : undefined, // we know that prevAction.resultComment is an Object and that it is defined as we validated it previously
+                  action.resultComment, // we know it's an Object has we validated it above
+                  // set `parentItem` in case of comment thread
+                  parentItemId != null
+                    ? {
+                        parentItem: parentItemId
+                      }
+                    : undefined
+                ),
+                resultCommentId
+              )
+            }
+          ),
+          now
         ),
-        scope
+        scope,
+        now
       ),
       scope
     ),

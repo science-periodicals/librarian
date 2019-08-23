@@ -216,20 +216,27 @@ export default function checkReadAclSync(doc, opts = {}) {
                   check(recipient, { scopeId })
                 )));
 
-          // console.log({
-          //   doc,
-          //   hasPermission,
-          //   admin: check([scopeId, 'AdminPermission']),
-          //   read: check([scopeId, 'ReadPermission']),
-          //   write: check([scopeId, 'WritePermission']),
-          //   agent: arrayify(doc.agent).some(agent => check(agent, { scopeId })),
-          //   participant: arrayify(doc.participant).some(participant =>
-          //     check(participant, { scopeId })
-          //   ),
-          //   recipient: arrayify(doc.recipient).some(recipient =>
-          //     check(recipient, { scopeId })
+          // console.log(
+          //   require('util').inspect(
+          //     {
+          //       doc,
+          //       hasPermission,
+          //       admin: check([scopeId, 'AdminPermission']),
+          //       read: check([scopeId, 'ReadPermission']),
+          //       write: check([scopeId, 'WritePermission']),
+          //       agent: arrayify(doc.agent).some(agent =>
+          //         check(agent, { scopeId })
+          //       ),
+          //       participant: arrayify(doc.participant).some(participant =>
+          //         check(participant, { scopeId })
+          //       ),
+          //       recipient: arrayify(doc.recipient).some(recipient =>
+          //         check(recipient, { scopeId })
+          //       )
+          //     },
+          //     { depth: null }
           //   )
-          // });
+          // );
 
           break;
 

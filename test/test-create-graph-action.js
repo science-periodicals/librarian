@@ -1,6 +1,6 @@
 import assert from 'assert';
 import uuid from 'uuid';
-import { getId } from '@scipe/jsonld';
+import { getId, arrayify } from '@scipe/jsonld';
 import { parseIndexableString } from '@scipe/collate';
 import registerUser from './utils/register-user';
 import {
@@ -242,6 +242,14 @@ describe('CreateGraphAction', function() {
     assert(graph._id);
     assert.equal(graph['@type'], 'Graph');
 
+    // check that roles start at same time as dateCreated that is same as createGraphAction.startTime
+    assert.equal(graph.dateCreated, createGraphAction.startTime);
+    arrayify(graph.author)
+      .concat(arrayify(graph.editor))
+      .forEach(role => {
+        assert.equal(role.startDate, graph.dateCreated);
+      });
+
     // check that worfklow action have identifiers
     assert(graph.potentialAction.length);
     const stage = graph.potentialAction.find(
@@ -252,6 +260,29 @@ describe('CreateGraphAction', function() {
       action => action['@type'] === 'ReviewAction'
     );
     assert.equal(reviewAction.identifier, '0.0');
+
+    // check reviewAction participant
+    // need audience role for editor and editor himself with startDate set to createGraphAction endTime + 1 ms (the start of the stage)
+    const editorAudienceRole = arrayify(reviewAction.participant).find(
+      role =>
+        role['@type'] === 'AudienceRole' &&
+        role.participant.audienceType === 'editor'
+    );
+    assert(editorAudienceRole);
+    assert.equal(
+      new Date(editorAudienceRole.startDate).getTime(),
+      new Date(createGraphAction.endTime).getTime() + 1
+    );
+
+    const participant = arrayify(reviewAction.participant).find(
+      role =>
+        role['@type'] === 'ContributorRole' && role.roleName === 'participant'
+    );
+    assert(participant);
+    assert.equal(
+      new Date(participant.startDate).getTime(),
+      new Date(createGraphAction.endTime).getTime() + 1
+    );
 
     // check that blank nodes got relabeled
     assert(graph.mainEntity.startsWith('node:'));

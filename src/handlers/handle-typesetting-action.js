@@ -5,7 +5,11 @@ import handleParticipants from '../utils/handle-participants';
 import schema from '../utils/schema';
 import getScopeId from '../utils/get-scope-id';
 import { getObjectId } from '../utils/schema-utils';
-import { getMetaActionParticipants } from '../utils/workflow-utils';
+import {
+  getMetaActionParticipants,
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * TypesettingAction is a service action and must have been created through a BuyAction
@@ -117,7 +121,7 @@ export default async function handleTypesettingAction(
         );
       }
 
-      const now = new Date().toISOString();
+      const now = action.endTime || new Date().toISOString();
       handledAction = handleParticipants(
         Object.assign(
           {
@@ -174,25 +178,10 @@ export default async function handleTypesettingAction(
     }
 
     default: {
-      const now = new Date().toISOString();
+      const now = getActionStatusTime(action) || new Date().toISOString();
+
       handledAction = handleParticipants(
-        Object.assign(
-          {},
-          action.actionStatus !== 'PotentialActionStatus'
-            ? {
-                startTime: now
-              }
-            : undefined,
-          action.actionStatus === 'StagedActionStatus'
-            ? { stagedTime: now }
-            : undefined,
-          action.actionStatus === 'FailedActionStatus'
-            ? {
-                endTime: now
-              }
-            : undefined,
-          action
-        ),
+        setDefaultActionStatusTime(action, now),
         graph,
         now
       );

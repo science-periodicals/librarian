@@ -4,6 +4,10 @@ import { getObjectId } from '../utils/schema-utils';
 import getScopeId from '../utils/get-scope-id';
 import handleParticipants from '../utils/handle-participants';
 import handleUserReferences from '../utils/handle-user-references';
+import {
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 // TODO? do not let user accept the ms (send to stage with a PublishAction) if
 // there are open RevisionRequestComment
@@ -75,7 +79,9 @@ export default async function handleAssessAction(
 
   switch (action.actionStatus) {
     case 'CompletedActionStatus': {
-      const assessActionEndTime = new Date();
+      const assessActionEndTime = action.endTime
+        ? new Date(action.endTime)
+        : new Date();
       const stageDate = new Date(assessActionEndTime.getTime() + 1);
 
       switch (result['@type']) {
@@ -247,29 +253,9 @@ export default async function handleAssessAction(
     }
 
     default: {
-      const now = new Date().toISOString();
+      const now = getActionStatusTime(action) || new Date().toISOString();
       const handledAction = handleUserReferences(
-        handleParticipants(
-          Object.assign(
-            {},
-            action.actionStatus !== 'PotentialActionStatus'
-              ? {
-                  startTime: now
-                }
-              : undefined,
-            action.actionStatus === 'StagedActionStatus'
-              ? { stagedTime: now }
-              : undefined,
-            action.actionStatus === 'FailedActionStatus'
-              ? {
-                  endTime: now
-                }
-              : undefined,
-            action
-          ),
-          graph,
-          now
-        ),
+        handleParticipants(setDefaultActionStatusTime(action, now), graph, now),
         graph
       );
 

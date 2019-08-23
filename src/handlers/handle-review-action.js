@@ -6,6 +6,10 @@ import handleParticipants from '../utils/handle-participants';
 import handleUserReferences from '../utils/handle-user-references';
 import { getObjectId } from '../utils/schema-utils';
 import getScopeId from '../utils/get-scope-id';
+import {
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 
 /**
  * A ReviewAction must be part of a workflow
@@ -132,30 +136,10 @@ export default async function handleReviewAction(
     }
   }
 
-  const now = new Date().toISOString();
+  const now = getActionStatusTime(action) || new Date().toISOString();
+
   const handledAction = handleUserReferences(
-    handleParticipants(
-      Object.assign(
-        {},
-        action.actionStatus !== 'PotentialActionStatus'
-          ? {
-              startTime: now
-            }
-          : undefined,
-        action.actionStatus === 'StagedActionStatus'
-          ? { stagedTime: now }
-          : undefined,
-        action.actionStatus === 'CompletedActionStatus' ||
-          action.actionStatus === 'FailedActionStatus'
-          ? {
-              endTime: now
-            }
-          : undefined,
-        action
-      ),
-      graph,
-      now
-    ),
+    handleParticipants(setDefaultActionStatusTime(action, now), graph, now),
     graph
   );
 

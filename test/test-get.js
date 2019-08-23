@@ -364,7 +364,6 @@ describe('get', function() {
       { acl: user, potentialActions: 'all' },
       (err, doc) => {
         if (err) return done(err);
-
         assert.equal(doc['@type'], 'Graph');
         assert(doc['@graph'].length);
         assert(

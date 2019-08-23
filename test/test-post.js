@@ -247,6 +247,8 @@ describe('post', function() {
       createReleaseAction.potentialAction
     ).find(action => action['@type'] === 'EndorseAction');
 
+    assert(endorseAction);
+
     // we ensure that the CreateReleaseAction will fail when we POST the completed endorse action
     const lock = await librarian.createLock(
       createId('release', 'latest', graph)['@id'],

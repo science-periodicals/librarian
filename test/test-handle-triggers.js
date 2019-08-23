@@ -260,12 +260,39 @@ describe('handle-triggers (special cases)', function() {
       { acl: author }
     );
 
+    // console.log(require('util').inspect(createReleaseAction, { depth: null }));
+
     // check that `editor` where added (so that trigger on staged was triggered by completing the action)
     assert.deepEqual(getAudienceTypes(createReleaseAction).sort(), [
       'author',
       'editor',
       'producer'
     ]);
+
+    // check that the startDate of the participant for AudienceRole match the action status dates
+    // author (active audience)
+    const authorAudienceRole = arrayify(createReleaseAction.participant).find(
+      role =>
+        role['@type'] === 'AudienceRole' &&
+        role.participant.audienceType === 'author'
+    );
+    assert.equal(authorAudienceRole.startDate, createReleaseAction.startTime);
+
+    // editor (added on staged via trigger)
+    const editorAudienceRole = arrayify(createReleaseAction.participant).find(
+      role =>
+        role['@type'] === 'AudienceRole' &&
+        role.participant.audienceType === 'editor'
+    );
+    assert.equal(editorAudienceRole.startDate, createReleaseAction.stagedTime);
+
+    // producer (added on completed via trigger)
+    const producerAudienceRole = arrayify(createReleaseAction.participant).find(
+      role =>
+        role['@type'] === 'AudienceRole' &&
+        role.participant.audienceType === 'producer'
+    );
+    assert.equal(producerAudienceRole.startDate, createReleaseAction.endTime);
   });
 });
 

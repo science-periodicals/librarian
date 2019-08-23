@@ -7,11 +7,13 @@ import createId from '../create-id';
 import schema from '../utils/schema';
 import handleParticipants from '../utils/handle-participants';
 import getActiveRoles from '../utils/get-active-roles';
+import { getStageId } from '../utils/workflow-actions';
 import setId from '../utils/set-id';
 import getScopeId from '../utils/get-scope-id';
 import findRole from '../utils/find-role';
 import remapRole from '../utils/remap-role';
 import { getObjectId, getAgent, getAgentId } from '../utils/schema-utils';
+import { getStageActions } from '../utils/workflow-utils';
 
 /**
  * AuthorizeAction allow to:
@@ -21,7 +23,7 @@ import { getObjectId, getAgent, getAgentId } from '../utils/schema-utils';
  */
 export default async function handleAuthorizeAction(
   action,
-  { store, triggered, prevAction } = {}
+  { store, triggered, triggerType, prevAction } = {}
 ) {
   if (action.actionStatus !== 'CompletedActionStatus') {
     throw createError(
@@ -174,8 +176,6 @@ export default async function handleAuthorizeAction(
       }
 
       const audiences = arrayify(action.recipient);
-      const now = new Date().toISOString();
-
       if (
         !audiences.length ||
         audiences.some(audience => !audience.audienceType)
@@ -186,6 +186,65 @@ export default async function handleAuthorizeAction(
             action['@type']
           } must have a recipient property containing valid Audience`
         );
+      }
+
+      let now = new Date().toISOString();
+      let objectOverwrite;
+      if (triggered && triggerType) {
+        // In this case `now` needs to be set based on the `triggerType`
+        // Note: this is complicated as due to the logic in post.js,
+        // the trigger may have been run _before_ the triggering action
+        // was triggered
+        // => if no relevant date can be found on the triggering action
+        // we set it here so it is backported to the action later
+        switch (triggerType) {
+          case 'OnObjectStagedActionStatus':
+            if (object.stagedTime) {
+              now = object.stagedTime;
+            } else {
+              objectOverwrite = { stagedTime: now };
+            }
+            break;
+
+          case 'OnObjectCompletedActionStatus':
+            if (object.endTime) {
+              now = object.endTime;
+            } else {
+              objectOverwrite = { endTime: now };
+            }
+            break;
+
+          case 'OnWorkflowStageEnd': {
+            const stage = await this.get(getStageId(object), {
+              store,
+              acl: false
+            });
+            const stageActions = getStageActions(stage);
+            const triggeringAction =
+              stageActions.find(action => action['@type'] === 'AssessAction') ||
+              stageActions.find(action => action['@type'] === 'PublishAction');
+
+            if (triggeringAction && triggeringAction.endTime) {
+              now = new Date(
+                new Date(triggeringAction.endTime).getTime() + 1
+              ).toISOString();
+            } else {
+              // we need to update the triggering action
+              await this.update(
+                triggeringAction,
+                action => {
+                  return Object.assign({ endTime: now }, action);
+                },
+                { store }
+              );
+            }
+
+            break;
+          }
+
+          default:
+            break;
+        }
       }
 
       const savedObject = await this.update(
@@ -253,8 +312,11 @@ export default async function handleAuthorizeAction(
             );
 
           return handleParticipants(
-            Object.assign({}, object, { participant: nextParticipants }),
-            graph
+            Object.assign({}, objectOverwrite, object, {
+              participant: nextParticipants
+            }),
+            graph,
+            now
           );
         },
         { store }

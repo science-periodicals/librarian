@@ -580,7 +580,7 @@ function maybeFetchPotentialActions(
       (object, cb) => {
         this.getActionsByObjectScopeId(object, { store }, (err, actions) => {
           if (err) {
-            return callback(err);
+            return cb(err);
           }
 
           const key = getId(object);

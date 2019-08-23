@@ -19,7 +19,11 @@ import {
 import createId from '../create-id';
 import { isEqualDigitalDocumentPermission, normalizePermissions } from '../acl';
 import { versionNodes } from '../utils/blob-utils';
-import { addPublicAudience } from '../utils/workflow-utils';
+import {
+  addPublicAudience,
+  getActionStatusTime,
+  setDefaultActionStatusTime
+} from '../utils/workflow-utils';
 import { getTemplateId } from '../utils/workflow-actions';
 import { DOI_REGISTRATION_SERVICE_TYPE } from '../constants';
 import { setEmbeddedIds } from '../utils/embed-utils';
@@ -83,7 +87,7 @@ export default async function handlePublishAction(
   }
 
   // Validate datePublished (used for scheduling)
-  const now = new Date().toISOString();
+  const now = getActionStatusTime(action) || new Date().toISOString();
   const datePublished = (action.result && action.result.datePublished) || now;
 
   const messages = validateDateTimeDuration({ datePublished });
@@ -439,23 +443,7 @@ export default async function handlePublishAction(
       default: {
         const handledAction = handleUserReferences(
           handleParticipants(
-            Object.assign(
-              {},
-              action.actionStatus !== 'PotentialActionStatus'
-                ? {
-                    startTime: now
-                  }
-                : undefined,
-              action.actionStatus === 'StagedActionStatus'
-                ? { stagedTime: now }
-                : undefined,
-              action.actionStatus === 'FailedActionStatus'
-                ? {
-                    endTime: now
-                  }
-                : undefined,
-              action
-            ),
+            setDefaultActionStatusTime(action, now),
             graph,
             now
           ),
@@ -509,7 +497,7 @@ export default async function handlePublishAction(
 
 function addPublicPermissions(
   release,
-  { publicAudiences = [], datePublished = new Date().toISOString() } = {}
+  { publicAudiences = [], datePublished }
 ) {
   publicAudiences = arrayify(publicAudiences)
     .filter(audience => audience.audienceType)

@@ -88,12 +88,14 @@ export default async function handleCreatePeriodicalAction(
     }
   }
 
+  const now = new Date().toISOString();
+
   periodical = setEmbeddedIds(
     setId(
       Object.assign(
         // Defaults. Note: we let user set dateCreated for journal import purposes
         {
-          dateCreated: new Date().toISOString()
+          dateCreated: now
         },
         periodical,
         {
@@ -114,6 +116,7 @@ export default async function handleCreatePeriodicalAction(
 
   periodical = validateAndSetupCreatedCreativeWorkRoles(periodical, {
     strict,
+    now,
     agent: action.agent,
     agentProfile: profile
   });
@@ -138,11 +141,11 @@ export default async function handleCreatePeriodicalAction(
 
   const handledCreatePeriodicalAction = Object.assign(
     {
-      startTime: new Date().toISOString()
+      startTime: now
     },
     handleParticipants(action, periodical),
     {
-      endTime: new Date().toISOString(),
+      endTime: now,
       actionStatus: 'CompletedActionStatus',
       result: pick(periodical, ['@id', '@type', 'url'])
     },

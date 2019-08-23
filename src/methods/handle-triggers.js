@@ -106,18 +106,20 @@ export default async function handleTriggers(
 
   if (arrayify(triggeredActionTypes).filter(Boolean).length) {
     triggeredActions = triggeredActions.filter(action => {
-      arrayify(triggeredActionTypes).some(type => action['@type'] === type);
+      return arrayify(triggeredActionTypes).some(
+        type => action['@type'] === type
+      );
     });
   }
 
   const handledTriggeredActions = [];
   const errors = [];
   for (const triggeredAction of triggeredActions) {
-    let handledTriggeredAction;
+    let handledTriggeredAction, triggerType;
     // triggeredAction was triggered by activateOn, endorseOn or completeOn
 
     if (triggeredAction.completeOn) {
-      const triggerType = triggeredAction.completeOn;
+      triggerType = triggeredAction.completeOn;
       const triggerId = getTriggerId(triggeredAction, triggerType);
       if (keys.some(key => key[0] === triggerId && key[1] === triggerType)) {
         // Do not trigger if triggeredAction requiresCompletionOf
@@ -160,7 +162,7 @@ export default async function handleTriggers(
         continue;
       }
     } else if (triggeredAction.endorseOn) {
-      const triggerType = triggeredAction.endorseOn;
+      triggerType = triggeredAction.endorseOn;
       const triggerId = getTriggerId(triggeredAction, triggerType);
       if (keys.some(key => key[0] === triggerId && key[1] === triggerType)) {
         // Do not trigger if triggeredAction requiresCompletionOf
@@ -197,7 +199,7 @@ export default async function handleTriggers(
         continue;
       }
     } else if (triggeredAction.activateOn) {
-      const triggerType = triggeredAction.activateOn;
+      triggerType = triggeredAction.activateOn;
       const triggerId = getTriggerId(triggeredAction, triggerType);
 
       if (keys.some(key => key[0] === triggerId && key[1] === triggerType)) {
@@ -217,7 +219,8 @@ export default async function handleTriggers(
         store,
         strict,
         acl: false,
-        triggered: true
+        triggered: true,
+        triggerType
       });
       handledTriggeredActions.push(postedTriggeredAction);
     } catch (err) {
