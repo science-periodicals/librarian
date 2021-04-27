@@ -121,7 +121,7 @@
     "moment": "^2.24.0",
     "npm-user-validate": "^1.0.0",
     "once": "^1.4.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "redlock": "^3.1.2",
     "regex-email": "^1.0.2",
     "request": "^2.88.0",
