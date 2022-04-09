@@ -118,7 +118,7 @@
     "juice": "^5.2.0",
     "lodash": "^4.17.15",
     "mmmagic": "^0.5.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "npm-user-validate": "^1.0.0",
     "once": "^1.4.0",
     "redis": "^2.8.0",
