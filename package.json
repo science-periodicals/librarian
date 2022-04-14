@@ -101,7 +101,7 @@
     "@scipe/ds3-mime": "^1.0.0",
     "@scipe/jsonld": "^1.0.0",
     "@scipe/ontology": "^23.0.0",
-    "async": "^2.6.2",
+    "async": "^3.2.2",
     "aws-sdk": "^2.516.0",
     "bunyan": "^1.8.12",
     "camelcase": "^4.1.0",
